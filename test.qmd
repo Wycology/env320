@@ -53,7 +53,7 @@ interactive, install software, or only matter on your own computer.
 
 ```{r}
 #| label: install
-#| eval: false
+#| eval: true
 pkgs <- c("terra", "sf", "geodata", "mapview", "mapedit", "exactextractr",
           "tidyverse")
 install.packages(setdiff(pkgs, rownames(installed.packages())))
@@ -230,8 +230,8 @@ ken3 <- gadm("KEN", level = 3, path = tempdir())
 ```{r}
 #| label: gadm-plot
 library(terra)
-ken1 <- vect("data/gadm/gadm41_KEN_1_pk.rds")
-ken3 <- vect("data/gadm/gadm41_KEN_3_pk.rds")
+ken1 <- terra::vect("data/gadm/gadm41_KEN_1_pk.rds")
+ken3 <- terra::vect("data/gadm/gadm41_KEN_3_pk.rds")
 
 kericho <- ken1[ken1$NAME_1 == "Kericho", ]
 wards   <- ken3[ken3$NAME_1 == "Kericho", ]

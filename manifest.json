@@ -3465,25 +3465,25 @@
       "checksum": "a121b6c46c5cd2979510741427ecb0f1"
     },
     "data/kericho_farms.csv": {
-      "checksum": "4ef49bbfe1e75a834c0c343c533cc5f4"
+      "checksum": "0c987303d18f69a695a7a55f25cfcc62"
     },
     "LICENSE": {
       "checksum": "ddf65527df008671c7016bac0753232a"
     },
     "output/farms_all.gpkg": {
-      "checksum": "138643ab1f8064fc8511817243da7a0e"
+      "checksum": "18553075af67a00ec97feb37698ca8f3"
     },
     "output/kericho_farms.gpkg": {
-      "checksum": "d5805fa136676b875290f912d74b2aa6"
+      "checksum": "59a337e5c29f6a4df717be460b6feac5"
     },
     "output/kericho_wards.gpkg": {
-      "checksum": "cf302cd389fa4f945002b97867c70b4c"
+      "checksum": "81ef37f10075e7867a8e2e8552eb6604"
     },
     "test.html": {
-      "checksum": "9a8ed12ebfdf311dc65c84a93f30ff45"
+      "checksum": "f2bf4ee16f1eff909a59b04691c4ac48"
     },
     "test.qmd": {
-      "checksum": "f004ca291fd4356b0bfc8515f38fc2bd"
+      "checksum": "06ad2eb44c0c569e95246a06083cd5e7"
     },
     "test_cache/html/__packages": {
       "checksum": "9981d5c8a05f3c66f85dd96280ac87bb"
@@ -3506,14 +3506,14 @@
     "test_cache/html/dl-elev_a0e80007b51494a0d9ead53c8d650069.rdx": {
       "checksum": "af441740e0df4d9b64bf17a7fe39110d"
     },
-    "test_cache/html/gadm_776eafff2dcde5727c7eade1f89375e0.RData": {
-      "checksum": "0f62eba1783807bef08b44fc09b38ae8"
+    "test_cache/html/gadm_7f1d8651a1d294b186bda9e089e84f2f.RData": {
+      "checksum": "097c01c25a3c059e318da8abe829eac5"
     },
-    "test_cache/html/gadm_776eafff2dcde5727c7eade1f89375e0.rdb": {
-      "checksum": "3198bcde52523a57d415b334fd25598b"
+    "test_cache/html/gadm_7f1d8651a1d294b186bda9e089e84f2f.rdb": {
+      "checksum": "381f0484e0af32da2f394d556fd3705a"
     },
-    "test_cache/html/gadm_776eafff2dcde5727c7eade1f89375e0.rdx": {
-      "checksum": "94c7b54a87c057ed9ebc35b5a486a528"
+    "test_cache/html/gadm_7f1d8651a1d294b186bda9e089e84f2f.rdx": {
+      "checksum": "c0fa4b3028e07fc178e3f16c16a1abd6"
     },
     "test_files/figure-html/algebra-1.png": {
       "checksum": "a13e63fdc02c48735c505be3e129f011"
@@ -3555,16 +3555,16 @@
       "checksum": "0bd9c8a52578858160ac3ce9ac97689a"
     },
     "test_files/figure-html/extract-farms-1.png": {
-      "checksum": "6cebd7eb8685ddaf029789436b682985"
+      "checksum": "01b6c616da6c2ffa270846eb418dc3df"
     },
     "test_files/figure-html/gadm-plot-1.png": {
       "checksum": "61580a27160537de3bf67b19677e935c"
     },
     "test_files/figure-html/gadm-plot-2.png": {
-      "checksum": "d976bbc277907a3292ecfe86626f134b"
+      "checksum": "6523ec734b2707d9811561e513b03c34"
     },
     "test_files/figure-html/points-plot-1.png": {
-      "checksum": "b85947a53ea123b34a042b1547f5f9ea"
+      "checksum": "2c97562bb54379af3b3676770203a847"
     },
     "test_files/figure-html/raster-scratch-1.png": {
       "checksum": "e862719ab69a53ec6d9382d1f1b9757b"
@@ -3576,13 +3576,13 @@
       "checksum": "cf538d313f3e0694550371bed0eda559"
     },
     "test_files/figure-html/reload-1.png": {
-      "checksum": "7752b54f5deac5d91ac9f33d96c8928a"
+      "checksum": "bf08db6661bfc8b150b5a0c45b41fa51"
     },
     "test_files/figure-html/ward-month-1.png": {
       "checksum": "fbb7220515ef76dd1b6f96b83cf61617"
     },
     "test_files/figure-html/ward-summary-1.png": {
-      "checksum": "f141447612cc23c4e4a3cadc411b76b4"
+      "checksum": "0cf90d808190b929d408b9b5ee5e0bb0"
     }
   },
   "users": null
