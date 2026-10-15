@@ -1,26 +1,509 @@
 ---
-title: "test1"
-format: html
-editor: visual
+title: "ENV-320 Satellite Data in Agricultural Economics"
+subtitle: "R tutorials — Day 1: Vector data · Day 2: Raster data"
+author: "Wyclife Agumba Oluoch, Land Economics Group, University of Bonn"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-tools: true
+    embed-resources: true
+    theme: cosmo
+execute:
+  warning: false
+  message: false
 ---
 
-## Quarto
+Study area for the whole course: **Kericho County, Kenya** (tea highlands).
+Chunks marked *not run* are shown for you to run yourself in RStudio; they are
+interactive, install software, or only matter on your own computer.
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+# 0. Setup (before Day 1)
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
+- Install R (≥ 4.4) and RStudio.
+- *File › New Project › New Directory* › `env320` (keeps paths simple).
 
 ```{r}
-#| echo: false
-2 * 2
+#| label: install
+#| eval: false
+pkgs <- c("terra", "sf", "geodata", "mapview", "mapedit", "exactextractr",
+          "tidyverse")
+install.packages(setdiff(pkgs, rownames(installed.packages())))
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+#| label: folders
+dir.create("data",   showWarnings = FALSE)
+dir.create("output", showWarnings = FALSE)
+```
+
+# Day 1 — Vector data (Thu 05.11.2026)
+
+| Time | Block |
+|---|---|
+| 16:15–16:30 | 1.1 RStudio tour + R in 15 minutes |
+| 16:30–16:55 | 1.2 Points |
+| 16:55–17:05 | Break |
+| 17:05–17:20 | 1.3 Lines and polygons; real boundaries (GADM) |
+| 17:20–17:40 | 1.4 Vector operations |
+| 17:40–17:45 | 1.5 Exercise |
+
+## 1.1 R in 15 minutes
+
+Panes: Script / Console / Environment / Files–Plots–Help. `Ctrl+Enter` runs a line.
+
+```{r}
+#| label: r-basics
+2 + 3
+yield <- 2.4
+yield * 1000
+
+yields <- c(2.4, 3.1, 1.8, 2.9)
+mean(yields)
+length(yields)
+yields[2]
+yields > 2.5
+
+crops <- c("tea", "maize", "tea", "beans")
+class(crops)
+
+farms_df <- data.frame(crop = crops, yield_t_ha = yields)
+farms_df
+str(farms_df)
+farms_df$yield_t_ha
+farms_df[farms_df$crop == "tea", ]
+nrow(farms_df)
+```
+
+```{r}
+#| label: help
+#| eval: false
+?mean
+```
+
+## 1.2 Points
+
+### From coordinates
+
+```{r}
+#| label: points-coords
+library(terra)
+
+coords <- cbind(lon = c(35.2863, 7.0982, 36.8219),
+                lat = c(-0.3677, 50.7374, -1.2921))
+towns <- vect(coords, crs = "EPSG:4326")
+towns$name <- c("Kericho", "Bonn", "Nairobi")
+towns
+geom(towns)
+crs(towns, describe = TRUE)
+```
+
+### From a data.frame / csv
+
+```{r}
+#| label: points-csv
+set.seed(320)
+n <- 60
+farms <- data.frame(
+  farm_id    = 1:n,
+  lon        = runif(n, 35.05, 35.60),
+  lat        = runif(n, -0.65, -0.10),
+  crop       = sample(c("tea", "maize", "dairy"), n, replace = TRUE,
+                      prob = c(0.5, 0.35, 0.15)),
+  hh_size    = rpois(n, 5),
+  income_kes = round(rlnorm(n, log(150000), 0.5))
+)
+write.csv(farms, "data/kericho_farms.csv", row.names = FALSE)
+
+farms_csv <- read.csv("data/kericho_farms.csv")
+head(farms_csv)
+farms_v <- vect(farms_csv, geom = c("lon", "lat"), crs = "EPSG:4326",
+                keepgeom = TRUE)
+farms_v
+```
+
+### By drawing (mapedit)
+
+Opens a viewer: draw points, click *Done*. *(not run)*
+
+```{r}
+#| label: mapedit
+#| eval: false
+library(mapedit)
+library(mapview)
+drawn <- drawFeatures()
+drawn_v <- vect(drawn)
+drawn_v
+```
+
+### Plot
+
+```{r}
+#| label: points-plot
+plot(farms_v, "crop", pch = 16, main = "Survey farms (simulated)")
+plot(towns[towns$name == "Kericho"], add = TRUE, pch = 17, cex = 2)
+text(towns[towns$name == "Kericho"], labels = "name", pos = 3)
+```
+
+### Interactive map *(not run)*
+
+```{r}
+#| label: mapview
+#| eval: false
+library(sf)
+library(mapview)
+mapview(st_as_sf(farms_v), zcol = "crop")
+# terra alternative: plet(farms_v, "crop")
+```
+
+### Save to disk
+
+```{r}
+#| label: points-save
+writeVector(farms_v, "output/farms_all.gpkg", overwrite = TRUE)
+```
+
+```{r}
+#| label: points-save-shp
+#| eval: false
+writeVector(farms_v, "output/farms_all.shp", overwrite = TRUE)   # legacy format
+list.files("output")
+```
+
+## 1.3 Lines and polygons
+
+```{r}
+#| label: lines-polys
+route <- vect(rbind(c(35.2863, -0.3677), c(36.0800, -0.3031), c(36.8219, -1.2921)),
+              type = "lines", crs = "EPSG:4326")
+route$name <- "Kericho–Nakuru–Nairobi"
+perim(route) / 1000
+
+estate <- vect(rbind(c(35.27, -0.40), c(35.33, -0.40), c(35.33, -0.35),
+                     c(35.27, -0.35), c(35.27, -0.40)),
+               type = "polygons", crs = "EPSG:4326")
+estate$name <- "hypothetical tea estate"
+expanse(estate, unit = "ha")
+```
+
+### Real boundaries: GADM
+
+Level 1 = county, 2 = sub-county, 3 = ward.
+
+```{r}
+#| label: gadm
+#| cache: true
+library(geodata)
+ken1 <- gadm("KEN", level = 1, path = "data")
+ken3 <- gadm("KEN", level = 3, path = "data")
+```
+
+```{r}
+#| label: gadm-plot
+kericho <- ken1[ken1$NAME_1 == "Kericho", ]
+wards   <- ken3[ken3$NAME_1 == "Kericho", ]
+nrow(wards)
+head(as.data.frame(wards))
+
+plot(ken1, col = "grey95", border = "grey60")
+plot(kericho, col = "darkgreen", add = TRUE)
+
+plot(wards, "NAME_2", main = "Kericho: wards by sub-county")
+plot(estate, add = TRUE, border = "red", lwd = 2)
+plot(farms_v, add = TRUE, pch = 16, cex = 0.6)
+```
+
+## 1.4 Vector operations
+
+### CRS and reprojection (WGS 84 / UTM 36S)
+
+```{r}
+#| label: crs
+kericho_utm <- project(kericho, "EPSG:32736")
+crs(kericho_utm, describe = TRUE)
+expanse(kericho, unit = "km")
+expanse(kericho_utm, unit = "km")
+
+wards$area_km2 <- expanse(wards, unit = "km")
+head(as.data.frame(wards[order(-wards$area_km2), c("NAME_3", "area_km2")]))
+```
+
+### Centroids and buffers
+
+```{r}
+#| label: buffers
+ward_cent <- centroids(wards, inside = TRUE)
+kericho_town <- towns[towns$name == "Kericho"]
+town_buf <- buffer(kericho_town, width = 10000)     # metres
+
+plot(wards, border = "grey60")
+plot(town_buf, add = TRUE, col = adjustcolor("orange", 0.4))
+plot(ward_cent, add = TRUE, pch = 3)
+```
+
+### Spatial query, spatial join, distance
+
+```{r}
+#| label: spatial-ops
+inside <- is.related(farms_v, kericho, "intersects")
+table(inside)
+farms_k <- farms_v[inside, ]
+
+farms_k <- intersect(farms_k, wards[, c("NAME_2", "NAME_3")])
+names(farms_k)[names(farms_k) %in% c("NAME_2", "NAME_3")] <- c("subcounty", "ward")
+head(as.data.frame(farms_k))
+
+farms_k$dist_town_km <- distance(farms_k, kericho_town)[, 1] / 1000
+summary(farms_k$dist_town_km)
+
+farms_near <- farms_k[is.related(farms_k, town_buf, "intersects"), ]
+nrow(farms_near)
+```
+
+### Aggregate to ward level
+
+```{r}
+#| label: ward-summary
+library(sf)
+library(tidyverse)
+ward_summary <- as.data.frame(farms_k) |>
+  group_by(ward) |>
+  summarise(n_farms     = n(),
+            share_tea   = mean(crop == "tea"),
+            mean_income = mean(income_kes),
+            .groups = "drop")
+ward_summary
+
+ggplot() +
+  geom_sf(data = st_as_sf(wards), fill = "grey95") +
+  geom_sf(data = st_as_sf(farms_k), aes(colour = crop)) +
+  theme_minimal()
+```
+
+```{r}
+#| label: day1-save
+writeVector(farms_k, "output/kericho_farms.gpkg", overwrite = TRUE)
+writeVector(wards,   "output/kericho_wards.gpkg", overwrite = TRUE)
+```
+
+## 1.5 Exercise
+
+a) Draw your own "tea estate" with mapedit and compute its area in ha.
+b) How many simulated farms lie within 5 km of it? Mean income of those farms?
+c) Which ward has the highest share of tea farms?
+
+# Day 2 — Raster data (Thu 12.11.2026)
+
+| Time | Block |
+|---|---|
+| 16:15–16:20 | 2.0 Recap + reload |
+| 16:20–16:35 | 2.1 A raster from scratch |
+| 16:35–16:55 | 2.2 Elevation + climate, crop/mask, multi-layer |
+| 16:55–17:05 | Break |
+| 17:05–17:20 | 2.3 Raster algebra, reclassification, tea suitability |
+| 17:20–17:40 | 2.4 Rasters → variables (farms, wards) |
+| 17:40–17:45 | 2.5 Exercise + bridge to GEE |
+
+::: {.callout-note}
+`worldclim_country()` downloads 100+ MB per variable. Run the downloads in 2.2 at home before class.
+:::
+
+## 2.0 Recap + reload
+
+```{r}
+#| label: reload
+library(terra)
+library(sf)
+library(geodata)
+library(tidyverse)
+
+farms   <- vect("output/kericho_farms.gpkg")
+wards   <- vect("output/kericho_wards.gpkg")
+kericho <- aggregate(wards)            # dissolve wards -> county outline
+plot(kericho); plot(farms, add = TRUE, pch = 16)
+```
+
+## 2.1 A raster from scratch
+
+```{r}
+#| label: raster-scratch
+r <- rast(nrows = 5, ncols = 5, xmin = 35.0, xmax = 35.5,
+          ymin = -0.6, ymax = -0.1, crs = "EPSG:4326")
+r
+values(r) <- 1:ncell(r)
+plot(r); text(r)
+
+res(r)
+ext(r)
+ncell(r)
+r[3, 3]
+cellFromXY(r, cbind(35.28, -0.37))
+
+r2 <- r * 2
+r_stack <- c(r, r2)
+names(r_stack) <- c("original", "doubled")
+plot(r_stack)
+
+plot(aggregate(r, fact = 2, fun = "mean"))
+```
+
+## 2.2 Real rasters: elevation and climate
+
+### Elevation (SRTM-based, 30 arc-sec ≈ 1 km)
+
+```{r}
+#| label: dl-elev
+#| cache: true
+elev <- elevation_30s("KEN", path = "data")
+```
+
+```{r}
+#| label: elev
+elev
+plot(elev)
+
+elev_k <- crop(elev, kericho)
+plot(elev_k); plot(kericho, add = TRUE)
+elev_k <- mask(elev_k, kericho)
+plot(elev_k, main = "Elevation (m)")
+global(elev_k, c("min", "max", "mean"), na.rm = TRUE)
+hist(elev_k, main = "Elevation distribution")
+
+slope_k <- terrain(elev_k, v = "slope", unit = "degrees")
+plot(slope_k, main = "Slope (deg)")
+```
+
+### Climate (WorldClim 2.1 monthly normals)
+
+```{r}
+#| label: dl-climate
+#| cache: true
+prec <- worldclim_country("KEN", var = "prec", path = "data")
+tavg <- worldclim_country("KEN", var = "tavg", path = "data")
+```
+
+```{r}
+#| label: climate
+prec
+nlyr(prec)
+
+prec_k <- mask(crop(prec, kericho), kericho)
+tavg_k <- mask(crop(tavg, kericho), kericho)
+names(prec_k) <- names(tavg_k) <- month.abb
+plot(prec_k)
+plot(prec_k[["Apr"]], main = "April precipitation (mm)")
+
+prec_annual <- sum(prec_k)
+tavg_annual <- mean(tavg_k)
+plot(c(prec_annual, tavg_annual), main = c("Annual rain (mm)", "Mean temp (°C)"))
+
+compareGeom(elev_k, prec_annual, stopOnError = FALSE)
+prec_annual <- resample(prec_annual, elev_k, method = "bilinear")
+tavg_annual <- resample(tavg_annual, elev_k, method = "bilinear")
+```
+
+## 2.3 Raster algebra, reclassification, tea suitability
+
+```{r}
+#| label: algebra
+rcl <- matrix(c(-Inf, 1500, 1,
+                1500, 2000, 2,
+                2000, 2500, 3,
+                2500,  Inf, 4), ncol = 3, byrow = TRUE)
+elev_zone <- classify(elev_k, rcl)
+levels(elev_zone) <- data.frame(id = 1:4,
+                                zone = c("<1500", "1500–2000", "2000–2500", ">2500"))
+plot(elev_zone, main = "Elevation zones (m)")
+
+tea_suit <- elev_k >= 1500 & elev_k <= 2700 &
+            prec_annual >= 1200 &
+            tavg_annual >= 13 & tavg_annual <= 25 &
+            slope_k < 30
+plot(tea_suit, main = "Suitable for tea (rule-based)")
+
+rain_score <- ifel(prec_annual > 1800, 1, prec_annual / 1800)
+plot(rain_score)
+
+global(cellSize(tea_suit, unit = "km") * tea_suit, "sum", na.rm = TRUE)
+expanse(kericho, unit = "km")
+```
+
+## 2.4 From rasters to variables
+
+```{r}
+#| label: covs
+covs <- c(elev_k, slope_k, prec_annual, tavg_annual, tea_suit)
+names(covs) <- c("elev_m", "slope_deg", "prec_mm", "tavg_c", "tea_suitable")
+plot(covs)
+```
+
+### Farm level: points and buffers
+
+`tidyverse` masks `terra::extract` with `tidyr::extract`, so always write `terra::extract`.
+
+```{r}
+#| label: extract-farms
+farm_env <- terra::extract(covs, farms, ID = FALSE)
+farms_df <- cbind(as.data.frame(farms), farm_env)
+head(farms_df)
+
+farm_env_1km <- terra::extract(covs[[1:4]], buffer(farms, 1000), fun = mean,
+                               na.rm = TRUE, ID = FALSE)
+names(farm_env_1km) <- paste0(names(farm_env_1km), "_1km")
+farms_df <- cbind(farms_df, farm_env_1km)
+
+ggplot(farms_df, aes(elev_m, income_kes, colour = crop)) +
+  geom_point() + theme_minimal()
+```
+
+### Ward level: zonal statistics
+
+```{r}
+#| label: zonal
+ward_env <- terra::extract(covs[[1:4]], wards, fun = mean, na.rm = TRUE, ID = FALSE)
+ward_df  <- cbind(as.data.frame(wards)[, c("NAME_2", "NAME_3")], ward_env)
+head(ward_df)
+
+library(exactextractr)
+wards_sf <- st_as_sf(wards)
+ward_exact <- exact_extract(covs[[1:4]], wards_sf, "mean", append_cols = "NAME_3",
+                            progress = FALSE)
+head(ward_exact)
+```
+
+### Panel-style table: ward × month rainfall
+
+```{r}
+#| label: ward-month
+ward_month <- exact_extract(prec_k, wards_sf, "mean", append_cols = "NAME_3",
+                            progress = FALSE) |>
+  pivot_longer(-NAME_3, names_to = "month", values_to = "prec_mm") |>
+  mutate(month = factor(sub("mean.", "", month), levels = month.abb))
+
+ggplot(ward_month, aes(month, prec_mm, group = NAME_3)) +
+  geom_line(alpha = 0.4) + theme_minimal()
+```
+
+### Save *(not run)*
+
+```{r}
+#| label: day2-save
+#| eval: false
+writeRaster(covs, "output/kericho_covariates.tif", overwrite = TRUE)
+write.csv(farms_df, "output/farms_with_covariates.csv", row.names = FALSE)
+write.csv(ward_df,  "output/wards_with_covariates.csv", row.names = FALSE)
+```
+
+## 2.5 Exercise and bridge to Google Earth Engine
+
+a) Share of each ward's area that is "suitable for tea" (hint: `exact_extract()` with `"mean"` on `tea_suit`).
+b) Wettest month per ward from `ward_month`.
+
+These were ~1 km static layers that fit on a laptop. Satellite images (10–30 m,
+every few days, years of data) do not, so from next week the same logic (crop,
+mask, algebra, extract, zonal statistics) moves to Google Earth Engine.
+**Homework:** register at <https://code.earthengine.google.com> with a
+noncommercial (education) Cloud project before 19.11.
