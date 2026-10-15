@@ -3471,19 +3471,19 @@
       "checksum": "ddf65527df008671c7016bac0753232a"
     },
     "output/farms_all.gpkg": {
-      "checksum": "18553075af67a00ec97feb37698ca8f3"
+      "checksum": "7cd67bfc733c6ae203617b6a87c18706"
     },
     "output/kericho_farms.gpkg": {
-      "checksum": "59a337e5c29f6a4df717be460b6feac5"
+      "checksum": "f38df27c3211dae6b1f72cc5d48f9016"
     },
     "output/kericho_wards.gpkg": {
-      "checksum": "81ef37f10075e7867a8e2e8552eb6604"
+      "checksum": "be0ebb0da0b2d1c2cecca2b804a180d5"
     },
     "test.html": {
-      "checksum": "f2bf4ee16f1eff909a59b04691c4ac48"
+      "checksum": "0a2bc4ec72cd478a9d4ebbdfcdc0da5a"
     },
     "test.qmd": {
-      "checksum": "06ad2eb44c0c569e95246a06083cd5e7"
+      "checksum": "dcaaac8e085406cacae287fda608faed"
     },
     "test_cache/html/__packages": {
       "checksum": "9981d5c8a05f3c66f85dd96280ac87bb"

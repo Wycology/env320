@@ -53,7 +53,7 @@ interactive, install software, or only matter on your own computer.
 
 ```{r}
 #| label: install
-#| eval: true
+#| eval: false
 pkgs <- c("terra", "sf", "geodata", "mapview", "mapedit", "exactextractr",
           "tidyverse")
 install.packages(setdiff(pkgs, rownames(installed.packages())))
