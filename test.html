@@ -2623,11 +2623,13 @@ values      :       1 35.3475 -0.274374 maize       2      82634
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>ken3 <span class="ot">&lt;-</span> <span class="fu">gadm</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">level =</span> <span class="dv">3</span>, <span class="at">path =</span> <span class="fu">tempdir</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ken1 <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;data/gadm/gadm41_KEN_1_pk.rds&quot;</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>ken3 <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;data/gadm/gadm41_KEN_3_pk.rds&quot;</span>)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>kericho <span class="ot">&lt;-</span> ken1[ken1<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>wards   <span class="ot">&lt;-</span> ken3[ken3<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(wards)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>ken1 <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;data/gadm/gadm41_KEN_1_pk.rds&quot;</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>ken3 <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;data/gadm/gadm41_KEN_3_pk.rds&quot;</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>kericho <span class="ot">&lt;-</span> ken1[ken1<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>wards   <span class="ot">&lt;-</span> ken3[ken3<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(wards)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 30</code></pre>
 </div>
@@ -3937,314 +3939,315 @@ area 1942.063</code></pre>
 <span id="cb125-255"><a href="#cb125-255" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb125-258"><a href="#cb125-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb125-259"><a href="#cb125-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gadm-plot</span></span>
-<span id="cb125-260"><a href="#cb125-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-260"><a href="#cb125-260" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb125-261"><a href="#cb125-261" aria-hidden="true" tabindex="-1"></a>ken1 <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;data/gadm/gadm41_KEN_1_pk.rds&quot;</span>)</span>
 <span id="cb125-262"><a href="#cb125-262" aria-hidden="true" tabindex="-1"></a>ken3 <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;data/gadm/gadm41_KEN_3_pk.rds&quot;</span>)</span>
-<span id="cb125-263"><a href="#cb125-263" aria-hidden="true" tabindex="-1"></a>kericho <span class="ot">&lt;-</span> ken1[ken1<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
-<span id="cb125-264"><a href="#cb125-264" aria-hidden="true" tabindex="-1"></a>wards   <span class="ot">&lt;-</span> ken3[ken3<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
-<span id="cb125-265"><a href="#cb125-265" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(wards)</span>
-<span id="cb125-266"><a href="#cb125-266" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(wards))</span>
-<span id="cb125-267"><a href="#cb125-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-268"><a href="#cb125-268" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ken1, <span class="at">col =</span> <span class="st">&quot;grey95&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>)</span>
-<span id="cb125-269"><a href="#cb125-269" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kericho, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-270"><a href="#cb125-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-271"><a href="#cb125-271" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wards, <span class="st">&quot;NAME_2&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Kericho: wards by sub-county&quot;</span>)</span>
-<span id="cb125-272"><a href="#cb125-272" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(estate, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">border =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb125-273"><a href="#cb125-273" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(farms_v, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
-<span id="cb125-274"><a href="#cb125-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-275"><a href="#cb125-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-276"><a href="#cb125-276" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.4 Vector operations</span></span>
-<span id="cb125-277"><a href="#cb125-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-278"><a href="#cb125-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### CRS and reprojection (WGS 84 / UTM 36S)</span></span>
-<span id="cb125-279"><a href="#cb125-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-282"><a href="#cb125-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-283"><a href="#cb125-283" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: crs</span></span>
-<span id="cb125-284"><a href="#cb125-284" aria-hidden="true" tabindex="-1"></a>kericho_utm <span class="ot">&lt;-</span> <span class="fu">project</span>(kericho, <span class="st">&quot;EPSG:32736&quot;</span>)</span>
-<span id="cb125-285"><a href="#cb125-285" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(kericho_utm, <span class="at">describe =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-286"><a href="#cb125-286" aria-hidden="true" tabindex="-1"></a><span class="fu">expanse</span>(kericho, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
-<span id="cb125-287"><a href="#cb125-287" aria-hidden="true" tabindex="-1"></a><span class="fu">expanse</span>(kericho_utm, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
-<span id="cb125-288"><a href="#cb125-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-289"><a href="#cb125-289" aria-hidden="true" tabindex="-1"></a>wards<span class="sc">$</span>area_km2 <span class="ot">&lt;-</span> <span class="fu">expanse</span>(wards, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
-<span id="cb125-290"><a href="#cb125-290" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(wards[<span class="fu">order</span>(<span class="sc">-</span>wards<span class="sc">$</span>area_km2), <span class="fu">c</span>(<span class="st">&quot;NAME_3&quot;</span>, <span class="st">&quot;area_km2&quot;</span>)]))</span>
-<span id="cb125-291"><a href="#cb125-291" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-292"><a href="#cb125-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-293"><a href="#cb125-293" aria-hidden="true" tabindex="-1"></a><span class="fu">### Centroids and buffers</span></span>
-<span id="cb125-294"><a href="#cb125-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-297"><a href="#cb125-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-298"><a href="#cb125-298" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: buffers</span></span>
-<span id="cb125-299"><a href="#cb125-299" aria-hidden="true" tabindex="-1"></a>ward_cent <span class="ot">&lt;-</span> <span class="fu">centroids</span>(wards, <span class="at">inside =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-300"><a href="#cb125-300" aria-hidden="true" tabindex="-1"></a>kericho_town <span class="ot">&lt;-</span> towns[towns<span class="sc">$</span>name <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>]</span>
-<span id="cb125-301"><a href="#cb125-301" aria-hidden="true" tabindex="-1"></a>town_buf <span class="ot">&lt;-</span> <span class="fu">buffer</span>(kericho_town, <span class="at">width =</span> <span class="dv">10000</span>)     <span class="co"># metres</span></span>
-<span id="cb125-302"><a href="#cb125-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-303"><a href="#cb125-303" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wards, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>)</span>
-<span id="cb125-304"><a href="#cb125-304" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(town_buf, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.4</span>))</span>
-<span id="cb125-305"><a href="#cb125-305" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ward_cent, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">3</span>)</span>
-<span id="cb125-306"><a href="#cb125-306" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-307"><a href="#cb125-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-308"><a href="#cb125-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Spatial query, spatial join, distance</span></span>
-<span id="cb125-309"><a href="#cb125-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-312"><a href="#cb125-312" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-313"><a href="#cb125-313" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: spatial-ops</span></span>
-<span id="cb125-314"><a href="#cb125-314" aria-hidden="true" tabindex="-1"></a>inside <span class="ot">&lt;-</span> <span class="fu">is.related</span>(farms_v, kericho, <span class="st">&quot;intersects&quot;</span>)</span>
-<span id="cb125-315"><a href="#cb125-315" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(inside)</span>
-<span id="cb125-316"><a href="#cb125-316" aria-hidden="true" tabindex="-1"></a>farms_k <span class="ot">&lt;-</span> farms_v[inside, ]</span>
-<span id="cb125-317"><a href="#cb125-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-318"><a href="#cb125-318" aria-hidden="true" tabindex="-1"></a>farms_k <span class="ot">&lt;-</span> <span class="fu">intersect</span>(farms_k, wards[, <span class="fu">c</span>(<span class="st">&quot;NAME_2&quot;</span>, <span class="st">&quot;NAME_3&quot;</span>)])</span>
-<span id="cb125-319"><a href="#cb125-319" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(farms_k)[<span class="fu">names</span>(farms_k) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NAME_2&quot;</span>, <span class="st">&quot;NAME_3&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;subcounty&quot;</span>, <span class="st">&quot;ward&quot;</span>)</span>
-<span id="cb125-320"><a href="#cb125-320" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(farms_k))</span>
-<span id="cb125-321"><a href="#cb125-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-322"><a href="#cb125-322" aria-hidden="true" tabindex="-1"></a>farms_k<span class="sc">$</span>dist_town_km <span class="ot">&lt;-</span> <span class="fu">distance</span>(farms_k, kericho_town)[, <span class="dv">1</span>] <span class="sc">/</span> <span class="dv">1000</span></span>
-<span id="cb125-323"><a href="#cb125-323" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(farms_k<span class="sc">$</span>dist_town_km)</span>
-<span id="cb125-324"><a href="#cb125-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-325"><a href="#cb125-325" aria-hidden="true" tabindex="-1"></a>farms_near <span class="ot">&lt;-</span> farms_k[<span class="fu">is.related</span>(farms_k, town_buf, <span class="st">&quot;intersects&quot;</span>), ]</span>
-<span id="cb125-326"><a href="#cb125-326" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(farms_near)</span>
-<span id="cb125-327"><a href="#cb125-327" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-328"><a href="#cb125-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-329"><a href="#cb125-329" aria-hidden="true" tabindex="-1"></a><span class="fu">### Aggregate to ward level</span></span>
-<span id="cb125-330"><a href="#cb125-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-333"><a href="#cb125-333" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-334"><a href="#cb125-334" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ward-summary</span></span>
-<span id="cb125-335"><a href="#cb125-335" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb125-336"><a href="#cb125-336" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb125-337"><a href="#cb125-337" aria-hidden="true" tabindex="-1"></a>ward_summary <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(farms_k) <span class="sc">|&gt;</span></span>
-<span id="cb125-338"><a href="#cb125-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ward) <span class="sc">|&gt;</span></span>
-<span id="cb125-339"><a href="#cb125-339" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_farms     =</span> <span class="fu">n</span>(),</span>
-<span id="cb125-340"><a href="#cb125-340" aria-hidden="true" tabindex="-1"></a>            <span class="at">share_tea   =</span> <span class="fu">mean</span>(crop <span class="sc">==</span> <span class="st">&quot;tea&quot;</span>),</span>
-<span id="cb125-341"><a href="#cb125-341" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_income =</span> <span class="fu">mean</span>(income_kes),</span>
-<span id="cb125-342"><a href="#cb125-342" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
-<span id="cb125-343"><a href="#cb125-343" aria-hidden="true" tabindex="-1"></a>ward_summary</span>
-<span id="cb125-344"><a href="#cb125-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-345"><a href="#cb125-345" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb125-346"><a href="#cb125-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_as_sf</span>(wards), <span class="at">fill =</span> <span class="st">&quot;grey95&quot;</span>) <span class="sc">+</span></span>
-<span id="cb125-347"><a href="#cb125-347" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_as_sf</span>(farms_k), <span class="fu">aes</span>(<span class="at">colour =</span> crop)) <span class="sc">+</span></span>
-<span id="cb125-348"><a href="#cb125-348" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb125-349"><a href="#cb125-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-350"><a href="#cb125-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-353"><a href="#cb125-353" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-354"><a href="#cb125-354" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: day1-save</span></span>
-<span id="cb125-355"><a href="#cb125-355" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(farms_k, <span class="st">&quot;output/kericho_farms.gpkg&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-356"><a href="#cb125-356" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(wards,   <span class="st">&quot;output/kericho_wards.gpkg&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-357"><a href="#cb125-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-358"><a href="#cb125-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-359"><a href="#cb125-359" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.5 Exercise</span></span>
-<span id="cb125-360"><a href="#cb125-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-361"><a href="#cb125-361" aria-hidden="true" tabindex="-1"></a>a) Draw your own &quot;tea estate&quot; with mapedit and compute its area in ha.</span>
-<span id="cb125-362"><a href="#cb125-362" aria-hidden="true" tabindex="-1"></a>b) How many simulated farms lie within 5 km of it? Mean income of those farms?</span>
-<span id="cb125-363"><a href="#cb125-363" aria-hidden="true" tabindex="-1"></a>c) Which ward has the highest share of tea farms?</span>
-<span id="cb125-364"><a href="#cb125-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-365"><a href="#cb125-365" aria-hidden="true" tabindex="-1"></a><span class="fu"># Day 2 — Raster data (Thu 12.11.2026)</span></span>
-<span id="cb125-366"><a href="#cb125-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-367"><a href="#cb125-367" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Time <span class="pp">|</span> Block <span class="pp">|</span></span>
-<span id="cb125-368"><a href="#cb125-368" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
-<span id="cb125-369"><a href="#cb125-369" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:15–16:20 <span class="pp">|</span> 2.0 Recap + reload <span class="pp">|</span></span>
-<span id="cb125-370"><a href="#cb125-370" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:20–16:35 <span class="pp">|</span> 2.1 A raster from scratch <span class="pp">|</span></span>
-<span id="cb125-371"><a href="#cb125-371" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:35–16:55 <span class="pp">|</span> 2.2 Elevation + climate, crop/mask, multi-layer <span class="pp">|</span></span>
-<span id="cb125-372"><a href="#cb125-372" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:55–17:05 <span class="pp">|</span> Break <span class="pp">|</span></span>
-<span id="cb125-373"><a href="#cb125-373" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 17:05–17:20 <span class="pp">|</span> 2.3 Raster algebra, reclassification, tea suitability <span class="pp">|</span></span>
-<span id="cb125-374"><a href="#cb125-374" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 17:20–17:40 <span class="pp">|</span> 2.4 Rasters → variables (farms, wards) <span class="pp">|</span></span>
-<span id="cb125-375"><a href="#cb125-375" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 17:40–17:45 <span class="pp">|</span> 2.5 Exercise + bridge to GEE <span class="pp">|</span></span>
-<span id="cb125-376"><a href="#cb125-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-377"><a href="#cb125-377" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb125-378"><a href="#cb125-378" aria-hidden="true" tabindex="-1"></a><span class="in">`worldclim_country()`</span> downloads 100+ MB per variable. Run the downloads in 2.2 at home before class.</span>
-<span id="cb125-379"><a href="#cb125-379" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb125-380"><a href="#cb125-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-381"><a href="#cb125-381" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.0 Recap + reload</span></span>
-<span id="cb125-382"><a href="#cb125-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-385"><a href="#cb125-385" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-386"><a href="#cb125-386" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: reload</span></span>
-<span id="cb125-387"><a href="#cb125-387" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb125-388"><a href="#cb125-388" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb125-389"><a href="#cb125-389" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
-<span id="cb125-390"><a href="#cb125-390" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb125-391"><a href="#cb125-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-392"><a href="#cb125-392" aria-hidden="true" tabindex="-1"></a>farms   <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;output/kericho_farms.gpkg&quot;</span>)</span>
-<span id="cb125-393"><a href="#cb125-393" aria-hidden="true" tabindex="-1"></a>wards   <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;output/kericho_wards.gpkg&quot;</span>)</span>
-<span id="cb125-394"><a href="#cb125-394" aria-hidden="true" tabindex="-1"></a>kericho <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(wards)            <span class="co"># dissolve wards -&gt; county outline</span></span>
-<span id="cb125-395"><a href="#cb125-395" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kericho); <span class="fu">plot</span>(farms, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
-<span id="cb125-396"><a href="#cb125-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-397"><a href="#cb125-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-398"><a href="#cb125-398" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.1 A raster from scratch</span></span>
-<span id="cb125-399"><a href="#cb125-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-402"><a href="#cb125-402" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-403"><a href="#cb125-403" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: raster-scratch</span></span>
-<span id="cb125-404"><a href="#cb125-404" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="at">nrows =</span> <span class="dv">5</span>, <span class="at">ncols =</span> <span class="dv">5</span>, <span class="at">xmin =</span> <span class="fl">35.0</span>, <span class="at">xmax =</span> <span class="fl">35.5</span>,</span>
-<span id="cb125-405"><a href="#cb125-405" aria-hidden="true" tabindex="-1"></a>          <span class="at">ymin =</span> <span class="sc">-</span><span class="fl">0.6</span>, <span class="at">ymax =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">crs =</span> <span class="st">&quot;EPSG:4326&quot;</span>)</span>
-<span id="cb125-406"><a href="#cb125-406" aria-hidden="true" tabindex="-1"></a>r</span>
-<span id="cb125-407"><a href="#cb125-407" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(r) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncell</span>(r)</span>
-<span id="cb125-408"><a href="#cb125-408" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r); <span class="fu">text</span>(r)</span>
-<span id="cb125-409"><a href="#cb125-409" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-410"><a href="#cb125-410" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(r)</span>
-<span id="cb125-411"><a href="#cb125-411" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(r)</span>
-<span id="cb125-412"><a href="#cb125-412" aria-hidden="true" tabindex="-1"></a><span class="fu">ncell</span>(r)</span>
-<span id="cb125-413"><a href="#cb125-413" aria-hidden="true" tabindex="-1"></a>r[<span class="dv">3</span>, <span class="dv">3</span>]</span>
-<span id="cb125-414"><a href="#cb125-414" aria-hidden="true" tabindex="-1"></a><span class="fu">cellFromXY</span>(r, <span class="fu">cbind</span>(<span class="fl">35.28</span>, <span class="sc">-</span><span class="fl">0.37</span>))</span>
-<span id="cb125-415"><a href="#cb125-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-416"><a href="#cb125-416" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> r <span class="sc">*</span> <span class="dv">2</span></span>
-<span id="cb125-417"><a href="#cb125-417" aria-hidden="true" tabindex="-1"></a>r_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(r, r2)</span>
-<span id="cb125-418"><a href="#cb125-418" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(r_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;original&quot;</span>, <span class="st">&quot;doubled&quot;</span>)</span>
-<span id="cb125-419"><a href="#cb125-419" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r_stack)</span>
-<span id="cb125-420"><a href="#cb125-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-421"><a href="#cb125-421" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">aggregate</span>(r, <span class="at">fact =</span> <span class="dv">2</span>, <span class="at">fun =</span> <span class="st">&quot;mean&quot;</span>))</span>
-<span id="cb125-422"><a href="#cb125-422" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-423"><a href="#cb125-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-424"><a href="#cb125-424" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.2 Real rasters: elevation and climate</span></span>
-<span id="cb125-425"><a href="#cb125-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-426"><a href="#cb125-426" aria-hidden="true" tabindex="-1"></a><span class="fu">### Elevation (SRTM-based, 30 arc-sec ≈ 1 km)</span></span>
-<span id="cb125-427"><a href="#cb125-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-430"><a href="#cb125-430" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-431"><a href="#cb125-431" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dl-elev</span></span>
-<span id="cb125-432"><a href="#cb125-432" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
-<span id="cb125-433"><a href="#cb125-433" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">elevation_30s</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">path =</span> <span class="st">&quot;data&quot;</span>)</span>
-<span id="cb125-434"><a href="#cb125-434" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-435"><a href="#cb125-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-438"><a href="#cb125-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-439"><a href="#cb125-439" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: elev</span></span>
-<span id="cb125-440"><a href="#cb125-440" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/elevation/KEN_elv_msk.tif&quot;</span>)</span>
-<span id="cb125-441"><a href="#cb125-441" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev)</span>
-<span id="cb125-442"><a href="#cb125-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-443"><a href="#cb125-443" aria-hidden="true" tabindex="-1"></a>elev_k <span class="ot">&lt;-</span> <span class="fu">crop</span>(elev, kericho)</span>
-<span id="cb125-444"><a href="#cb125-444" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_k); <span class="fu">plot</span>(kericho, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-445"><a href="#cb125-445" aria-hidden="true" tabindex="-1"></a>elev_k <span class="ot">&lt;-</span> <span class="fu">mask</span>(elev_k, kericho)</span>
-<span id="cb125-446"><a href="#cb125-446" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_k, <span class="at">main =</span> <span class="st">&quot;Elevation (m)&quot;</span>)</span>
-<span id="cb125-447"><a href="#cb125-447" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(elev_k, <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>, <span class="st">&quot;mean&quot;</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-448"><a href="#cb125-448" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(elev_k, <span class="at">main =</span> <span class="st">&quot;Elevation distribution&quot;</span>)</span>
-<span id="cb125-449"><a href="#cb125-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-450"><a href="#cb125-450" aria-hidden="true" tabindex="-1"></a>slope_k <span class="ot">&lt;-</span> <span class="fu">terrain</span>(elev_k, <span class="at">v =</span> <span class="st">&quot;slope&quot;</span>, <span class="at">unit =</span> <span class="st">&quot;degrees&quot;</span>)</span>
-<span id="cb125-451"><a href="#cb125-451" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slope_k, <span class="at">main =</span> <span class="st">&quot;Slope (deg)&quot;</span>)</span>
-<span id="cb125-452"><a href="#cb125-452" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-453"><a href="#cb125-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-454"><a href="#cb125-454" aria-hidden="true" tabindex="-1"></a><span class="fu">### Climate (WorldClim 2.1 monthly normals)</span></span>
-<span id="cb125-455"><a href="#cb125-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-458"><a href="#cb125-458" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-459"><a href="#cb125-459" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dl-climate</span></span>
-<span id="cb125-460"><a href="#cb125-460" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
-<span id="cb125-461"><a href="#cb125-461" aria-hidden="true" tabindex="-1"></a>prec <span class="ot">&lt;-</span> <span class="fu">worldclim_country</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">var =</span> <span class="st">&quot;prec&quot;</span>, <span class="at">path =</span> <span class="st">&quot;data&quot;</span>)</span>
-<span id="cb125-462"><a href="#cb125-462" aria-hidden="true" tabindex="-1"></a>tavg <span class="ot">&lt;-</span> <span class="fu">worldclim_country</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">var =</span> <span class="st">&quot;tavg&quot;</span>, <span class="at">path =</span> <span class="st">&quot;data&quot;</span>)</span>
-<span id="cb125-463"><a href="#cb125-463" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-464"><a href="#cb125-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-467"><a href="#cb125-467" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-468"><a href="#cb125-468" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: climate</span></span>
-<span id="cb125-469"><a href="#cb125-469" aria-hidden="true" tabindex="-1"></a>prec <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/climate/wc2.1_country/KEN_wc2.1_30s_prec.tif&quot;</span>)</span>
-<span id="cb125-470"><a href="#cb125-470" aria-hidden="true" tabindex="-1"></a>tavg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/climate/wc2.1_country/KEN_wc2.1_30s_tavg.tif&quot;</span>)</span>
-<span id="cb125-471"><a href="#cb125-471" aria-hidden="true" tabindex="-1"></a><span class="fu">nlyr</span>(prec)</span>
-<span id="cb125-472"><a href="#cb125-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-473"><a href="#cb125-473" aria-hidden="true" tabindex="-1"></a>prec_k <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(prec, kericho), kericho)</span>
-<span id="cb125-474"><a href="#cb125-474" aria-hidden="true" tabindex="-1"></a>tavg_k <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(tavg, kericho), kericho)</span>
-<span id="cb125-475"><a href="#cb125-475" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(prec_k) <span class="ot">&lt;-</span> <span class="fu">names</span>(tavg_k) <span class="ot">&lt;-</span> month.abb</span>
-<span id="cb125-476"><a href="#cb125-476" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prec_k)</span>
-<span id="cb125-477"><a href="#cb125-477" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prec_k[[<span class="st">&quot;Apr&quot;</span>]], <span class="at">main =</span> <span class="st">&quot;April precipitation (mm)&quot;</span>)</span>
-<span id="cb125-478"><a href="#cb125-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-479"><a href="#cb125-479" aria-hidden="true" tabindex="-1"></a>prec_annual <span class="ot">&lt;-</span> <span class="fu">sum</span>(prec_k)</span>
-<span id="cb125-480"><a href="#cb125-480" aria-hidden="true" tabindex="-1"></a>tavg_annual <span class="ot">&lt;-</span> <span class="fu">mean</span>(tavg_k)</span>
-<span id="cb125-481"><a href="#cb125-481" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(prec_annual, tavg_annual), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">&quot;Annual rain (mm)&quot;</span>, <span class="st">&quot;Mean temp (°C)&quot;</span>))</span>
-<span id="cb125-482"><a href="#cb125-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-483"><a href="#cb125-483" aria-hidden="true" tabindex="-1"></a><span class="fu">compareGeom</span>(elev_k, prec_annual, <span class="at">stopOnError =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-484"><a href="#cb125-484" aria-hidden="true" tabindex="-1"></a>prec_annual <span class="ot">&lt;-</span> <span class="fu">resample</span>(prec_annual, elev_k, <span class="at">method =</span> <span class="st">&quot;bilinear&quot;</span>)</span>
-<span id="cb125-485"><a href="#cb125-485" aria-hidden="true" tabindex="-1"></a>tavg_annual <span class="ot">&lt;-</span> <span class="fu">resample</span>(tavg_annual, elev_k, <span class="at">method =</span> <span class="st">&quot;bilinear&quot;</span>)</span>
-<span id="cb125-486"><a href="#cb125-486" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-487"><a href="#cb125-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-488"><a href="#cb125-488" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.3 Raster algebra, reclassification, tea suitability</span></span>
-<span id="cb125-489"><a href="#cb125-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-492"><a href="#cb125-492" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-493"><a href="#cb125-493" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: algebra</span></span>
-<span id="cb125-494"><a href="#cb125-494" aria-hidden="true" tabindex="-1"></a>rcl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">1500</span>, <span class="dv">1</span>,</span>
-<span id="cb125-495"><a href="#cb125-495" aria-hidden="true" tabindex="-1"></a>                <span class="dv">1500</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
-<span id="cb125-496"><a href="#cb125-496" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2000</span>, <span class="dv">2500</span>, <span class="dv">3</span>,</span>
-<span id="cb125-497"><a href="#cb125-497" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2500</span>,  <span class="cn">Inf</span>, <span class="dv">4</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-498"><a href="#cb125-498" aria-hidden="true" tabindex="-1"></a>elev_zone <span class="ot">&lt;-</span> <span class="fu">classify</span>(elev_k, rcl)</span>
-<span id="cb125-499"><a href="#cb125-499" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(elev_zone) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb125-500"><a href="#cb125-500" aria-hidden="true" tabindex="-1"></a>                                <span class="at">zone =</span> <span class="fu">c</span>(<span class="st">&quot;&lt;1500&quot;</span>, <span class="st">&quot;1500–2000&quot;</span>, <span class="st">&quot;2000–2500&quot;</span>, <span class="st">&quot;&gt;2500&quot;</span>))</span>
-<span id="cb125-501"><a href="#cb125-501" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_zone, <span class="at">main =</span> <span class="st">&quot;Elevation zones (m)&quot;</span>)</span>
-<span id="cb125-502"><a href="#cb125-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-503"><a href="#cb125-503" aria-hidden="true" tabindex="-1"></a>tea_suit <span class="ot">&lt;-</span> elev_k <span class="sc">&gt;=</span> <span class="dv">1500</span> <span class="sc">&amp;</span> elev_k <span class="sc">&lt;=</span> <span class="dv">2700</span> <span class="sc">&amp;</span></span>
-<span id="cb125-504"><a href="#cb125-504" aria-hidden="true" tabindex="-1"></a>            prec_annual <span class="sc">&gt;=</span> <span class="dv">1200</span> <span class="sc">&amp;</span></span>
-<span id="cb125-505"><a href="#cb125-505" aria-hidden="true" tabindex="-1"></a>            tavg_annual <span class="sc">&gt;=</span> <span class="dv">13</span> <span class="sc">&amp;</span> tavg_annual <span class="sc">&lt;=</span> <span class="dv">25</span> <span class="sc">&amp;</span></span>
-<span id="cb125-506"><a href="#cb125-506" aria-hidden="true" tabindex="-1"></a>            slope_k <span class="sc">&lt;</span> <span class="dv">30</span></span>
-<span id="cb125-507"><a href="#cb125-507" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tea_suit, <span class="at">main =</span> <span class="st">&quot;Suitable for tea (rule-based)&quot;</span>)</span>
-<span id="cb125-508"><a href="#cb125-508" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-509"><a href="#cb125-509" aria-hidden="true" tabindex="-1"></a>rain_score <span class="ot">&lt;-</span> <span class="fu">ifel</span>(prec_annual <span class="sc">&gt;</span> <span class="dv">1800</span>, <span class="dv">1</span>, prec_annual <span class="sc">/</span> <span class="dv">1800</span>)</span>
-<span id="cb125-510"><a href="#cb125-510" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rain_score)</span>
-<span id="cb125-511"><a href="#cb125-511" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-512"><a href="#cb125-512" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(<span class="fu">cellSize</span>(tea_suit, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>) <span class="sc">*</span> tea_suit, <span class="st">&quot;sum&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-513"><a href="#cb125-513" aria-hidden="true" tabindex="-1"></a><span class="fu">expanse</span>(kericho, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
-<span id="cb125-514"><a href="#cb125-514" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-515"><a href="#cb125-515" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-516"><a href="#cb125-516" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.4 From rasters to variables</span></span>
-<span id="cb125-517"><a href="#cb125-517" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-520"><a href="#cb125-520" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-521"><a href="#cb125-521" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: covs</span></span>
-<span id="cb125-522"><a href="#cb125-522" aria-hidden="true" tabindex="-1"></a>covs <span class="ot">&lt;-</span> <span class="fu">c</span>(elev_k, slope_k, prec_annual, tavg_annual, tea_suit)</span>
-<span id="cb125-523"><a href="#cb125-523" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(covs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;elev_m&quot;</span>, <span class="st">&quot;slope_deg&quot;</span>, <span class="st">&quot;prec_mm&quot;</span>, <span class="st">&quot;tavg_c&quot;</span>, <span class="st">&quot;tea_suitable&quot;</span>)</span>
-<span id="cb125-524"><a href="#cb125-524" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(covs)</span>
-<span id="cb125-525"><a href="#cb125-525" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-526"><a href="#cb125-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-527"><a href="#cb125-527" aria-hidden="true" tabindex="-1"></a><span class="fu">### Farm level: points and buffers</span></span>
-<span id="cb125-528"><a href="#cb125-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-529"><a href="#cb125-529" aria-hidden="true" tabindex="-1"></a><span class="in">`tidyverse`</span> masks <span class="in">`terra::extract`</span> with <span class="in">`tidyr::extract`</span>, so always write <span class="in">`terra::extract`</span>.</span>
-<span id="cb125-530"><a href="#cb125-530" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-533"><a href="#cb125-533" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-534"><a href="#cb125-534" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: extract-farms</span></span>
-<span id="cb125-535"><a href="#cb125-535" aria-hidden="true" tabindex="-1"></a>farm_env <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(covs, farms, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-536"><a href="#cb125-536" aria-hidden="true" tabindex="-1"></a>farms_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(farms), farm_env)</span>
-<span id="cb125-537"><a href="#cb125-537" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(farms_df)</span>
-<span id="cb125-538"><a href="#cb125-538" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-539"><a href="#cb125-539" aria-hidden="true" tabindex="-1"></a>farm_env_1km <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(covs[[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]], <span class="fu">buffer</span>(farms, <span class="dv">1000</span>), <span class="at">fun =</span> mean,</span>
-<span id="cb125-540"><a href="#cb125-540" aria-hidden="true" tabindex="-1"></a>                               <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-541"><a href="#cb125-541" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(farm_env_1km) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">names</span>(farm_env_1km), <span class="st">&quot;_1km&quot;</span>)</span>
-<span id="cb125-542"><a href="#cb125-542" aria-hidden="true" tabindex="-1"></a>farms_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(farms_df, farm_env_1km)</span>
-<span id="cb125-543"><a href="#cb125-543" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-544"><a href="#cb125-544" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(farms_df, <span class="fu">aes</span>(elev_m, income_kes, <span class="at">colour =</span> crop)) <span class="sc">+</span></span>
-<span id="cb125-545"><a href="#cb125-545" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb125-546"><a href="#cb125-546" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-547"><a href="#cb125-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-548"><a href="#cb125-548" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ward level: zonal statistics</span></span>
-<span id="cb125-549"><a href="#cb125-549" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-552"><a href="#cb125-552" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-553"><a href="#cb125-553" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: zonal</span></span>
-<span id="cb125-554"><a href="#cb125-554" aria-hidden="true" tabindex="-1"></a>ward_env <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(covs[[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]], wards, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-555"><a href="#cb125-555" aria-hidden="true" tabindex="-1"></a>ward_df  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(wards)[, <span class="fu">c</span>(<span class="st">&quot;NAME_2&quot;</span>, <span class="st">&quot;NAME_3&quot;</span>)], ward_env)</span>
-<span id="cb125-556"><a href="#cb125-556" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ward_df)</span>
-<span id="cb125-557"><a href="#cb125-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-558"><a href="#cb125-558" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(exactextractr)</span>
-<span id="cb125-559"><a href="#cb125-559" aria-hidden="true" tabindex="-1"></a>wards_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(wards)</span>
-<span id="cb125-560"><a href="#cb125-560" aria-hidden="true" tabindex="-1"></a>ward_exact <span class="ot">&lt;-</span> <span class="fu">exact_extract</span>(covs[[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]], wards_sf, <span class="st">&quot;mean&quot;</span>, <span class="at">append_cols =</span> <span class="st">&quot;NAME_3&quot;</span>,</span>
-<span id="cb125-561"><a href="#cb125-561" aria-hidden="true" tabindex="-1"></a>                            <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-562"><a href="#cb125-562" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ward_exact)</span>
-<span id="cb125-563"><a href="#cb125-563" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-564"><a href="#cb125-564" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-565"><a href="#cb125-565" aria-hidden="true" tabindex="-1"></a><span class="fu">### Panel-style table: ward × month rainfall</span></span>
-<span id="cb125-566"><a href="#cb125-566" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-569"><a href="#cb125-569" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-570"><a href="#cb125-570" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ward-month</span></span>
-<span id="cb125-571"><a href="#cb125-571" aria-hidden="true" tabindex="-1"></a>ward_month <span class="ot">&lt;-</span> <span class="fu">exact_extract</span>(prec_k, wards_sf, <span class="st">&quot;mean&quot;</span>, <span class="at">append_cols =</span> <span class="st">&quot;NAME_3&quot;</span>,</span>
-<span id="cb125-572"><a href="#cb125-572" aria-hidden="true" tabindex="-1"></a>                            <span class="at">progress =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb125-573"><a href="#cb125-573" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>NAME_3, <span class="at">names_to =</span> <span class="st">&quot;month&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;prec_mm&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb125-574"><a href="#cb125-574" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(<span class="fu">sub</span>(<span class="st">&quot;mean.&quot;</span>, <span class="st">&quot;&quot;</span>, month), <span class="at">levels =</span> month.abb))</span>
-<span id="cb125-575"><a href="#cb125-575" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-576"><a href="#cb125-576" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ward_month, <span class="fu">aes</span>(month, prec_mm, <span class="at">group =</span> NAME_3)) <span class="sc">+</span></span>
-<span id="cb125-577"><a href="#cb125-577" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb125-578"><a href="#cb125-578" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-579"><a href="#cb125-579" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-580"><a href="#cb125-580" aria-hidden="true" tabindex="-1"></a><span class="fu">### Save *(not run)*</span></span>
-<span id="cb125-581"><a href="#cb125-581" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-584"><a href="#cb125-584" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb125-585"><a href="#cb125-585" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: day2-save</span></span>
-<span id="cb125-586"><a href="#cb125-586" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb125-587"><a href="#cb125-587" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(covs, <span class="st">&quot;output/kericho_covariates.tif&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb125-588"><a href="#cb125-588" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(farms_df, <span class="st">&quot;output/farms_with_covariates.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-589"><a href="#cb125-589" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ward_df,  <span class="st">&quot;output/wards_with_covariates.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb125-590"><a href="#cb125-590" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb125-591"><a href="#cb125-591" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-592"><a href="#cb125-592" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.5 Exercise and bridge to Google Earth Engine</span></span>
-<span id="cb125-593"><a href="#cb125-593" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-594"><a href="#cb125-594" aria-hidden="true" tabindex="-1"></a>a) Share of each ward&#39;s area that is &quot;suitable for tea&quot; (hint: <span class="in">`exact_extract()`</span> with <span class="in">`&quot;mean&quot;`</span> on <span class="in">`tea_suit`</span>).</span>
-<span id="cb125-595"><a href="#cb125-595" aria-hidden="true" tabindex="-1"></a>b) Wettest month per ward from <span class="in">`ward_month`</span>.</span>
-<span id="cb125-596"><a href="#cb125-596" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-597"><a href="#cb125-597" aria-hidden="true" tabindex="-1"></a>These were ~1 km static layers that fit on a laptop. Satellite images (10–30 m,</span>
-<span id="cb125-598"><a href="#cb125-598" aria-hidden="true" tabindex="-1"></a>every few days, years of data) do not, so from next week the same logic (crop,</span>
-<span id="cb125-599"><a href="#cb125-599" aria-hidden="true" tabindex="-1"></a>mask, algebra, extract, zonal statistics) moves to Google Earth Engine.</span>
-<span id="cb125-600"><a href="#cb125-600" aria-hidden="true" tabindex="-1"></a>**Homework:** register at <span class="ot">&lt;https://code.earthengine.google.com&gt;</span> with a</span>
-<span id="cb125-601"><a href="#cb125-601" aria-hidden="true" tabindex="-1"></a>noncommercial (education) Cloud project before 19.11.</span>
+<span id="cb125-263"><a href="#cb125-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-264"><a href="#cb125-264" aria-hidden="true" tabindex="-1"></a>kericho <span class="ot">&lt;-</span> ken1[ken1<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
+<span id="cb125-265"><a href="#cb125-265" aria-hidden="true" tabindex="-1"></a>wards   <span class="ot">&lt;-</span> ken3[ken3<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>, ]</span>
+<span id="cb125-266"><a href="#cb125-266" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(wards)</span>
+<span id="cb125-267"><a href="#cb125-267" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(wards))</span>
+<span id="cb125-268"><a href="#cb125-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-269"><a href="#cb125-269" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ken1, <span class="at">col =</span> <span class="st">&quot;grey95&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>)</span>
+<span id="cb125-270"><a href="#cb125-270" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kericho, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-271"><a href="#cb125-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-272"><a href="#cb125-272" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wards, <span class="st">&quot;NAME_2&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Kericho: wards by sub-county&quot;</span>)</span>
+<span id="cb125-273"><a href="#cb125-273" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(estate, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">border =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb125-274"><a href="#cb125-274" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(farms_v, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
+<span id="cb125-275"><a href="#cb125-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-276"><a href="#cb125-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-277"><a href="#cb125-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.4 Vector operations</span></span>
+<span id="cb125-278"><a href="#cb125-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-279"><a href="#cb125-279" aria-hidden="true" tabindex="-1"></a><span class="fu">### CRS and reprojection (WGS 84 / UTM 36S)</span></span>
+<span id="cb125-280"><a href="#cb125-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-283"><a href="#cb125-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-284"><a href="#cb125-284" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: crs</span></span>
+<span id="cb125-285"><a href="#cb125-285" aria-hidden="true" tabindex="-1"></a>kericho_utm <span class="ot">&lt;-</span> <span class="fu">project</span>(kericho, <span class="st">&quot;EPSG:32736&quot;</span>)</span>
+<span id="cb125-286"><a href="#cb125-286" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(kericho_utm, <span class="at">describe =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-287"><a href="#cb125-287" aria-hidden="true" tabindex="-1"></a><span class="fu">expanse</span>(kericho, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
+<span id="cb125-288"><a href="#cb125-288" aria-hidden="true" tabindex="-1"></a><span class="fu">expanse</span>(kericho_utm, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
+<span id="cb125-289"><a href="#cb125-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-290"><a href="#cb125-290" aria-hidden="true" tabindex="-1"></a>wards<span class="sc">$</span>area_km2 <span class="ot">&lt;-</span> <span class="fu">expanse</span>(wards, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
+<span id="cb125-291"><a href="#cb125-291" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(wards[<span class="fu">order</span>(<span class="sc">-</span>wards<span class="sc">$</span>area_km2), <span class="fu">c</span>(<span class="st">&quot;NAME_3&quot;</span>, <span class="st">&quot;area_km2&quot;</span>)]))</span>
+<span id="cb125-292"><a href="#cb125-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-293"><a href="#cb125-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-294"><a href="#cb125-294" aria-hidden="true" tabindex="-1"></a><span class="fu">### Centroids and buffers</span></span>
+<span id="cb125-295"><a href="#cb125-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-298"><a href="#cb125-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-299"><a href="#cb125-299" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: buffers</span></span>
+<span id="cb125-300"><a href="#cb125-300" aria-hidden="true" tabindex="-1"></a>ward_cent <span class="ot">&lt;-</span> <span class="fu">centroids</span>(wards, <span class="at">inside =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-301"><a href="#cb125-301" aria-hidden="true" tabindex="-1"></a>kericho_town <span class="ot">&lt;-</span> towns[towns<span class="sc">$</span>name <span class="sc">==</span> <span class="st">&quot;Kericho&quot;</span>]</span>
+<span id="cb125-302"><a href="#cb125-302" aria-hidden="true" tabindex="-1"></a>town_buf <span class="ot">&lt;-</span> <span class="fu">buffer</span>(kericho_town, <span class="at">width =</span> <span class="dv">10000</span>)     <span class="co"># metres</span></span>
+<span id="cb125-303"><a href="#cb125-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-304"><a href="#cb125-304" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wards, <span class="at">border =</span> <span class="st">&quot;grey60&quot;</span>)</span>
+<span id="cb125-305"><a href="#cb125-305" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(town_buf, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.4</span>))</span>
+<span id="cb125-306"><a href="#cb125-306" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ward_cent, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">3</span>)</span>
+<span id="cb125-307"><a href="#cb125-307" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-308"><a href="#cb125-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-309"><a href="#cb125-309" aria-hidden="true" tabindex="-1"></a><span class="fu">### Spatial query, spatial join, distance</span></span>
+<span id="cb125-310"><a href="#cb125-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-313"><a href="#cb125-313" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-314"><a href="#cb125-314" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: spatial-ops</span></span>
+<span id="cb125-315"><a href="#cb125-315" aria-hidden="true" tabindex="-1"></a>inside <span class="ot">&lt;-</span> <span class="fu">is.related</span>(farms_v, kericho, <span class="st">&quot;intersects&quot;</span>)</span>
+<span id="cb125-316"><a href="#cb125-316" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(inside)</span>
+<span id="cb125-317"><a href="#cb125-317" aria-hidden="true" tabindex="-1"></a>farms_k <span class="ot">&lt;-</span> farms_v[inside, ]</span>
+<span id="cb125-318"><a href="#cb125-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-319"><a href="#cb125-319" aria-hidden="true" tabindex="-1"></a>farms_k <span class="ot">&lt;-</span> <span class="fu">intersect</span>(farms_k, wards[, <span class="fu">c</span>(<span class="st">&quot;NAME_2&quot;</span>, <span class="st">&quot;NAME_3&quot;</span>)])</span>
+<span id="cb125-320"><a href="#cb125-320" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(farms_k)[<span class="fu">names</span>(farms_k) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NAME_2&quot;</span>, <span class="st">&quot;NAME_3&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;subcounty&quot;</span>, <span class="st">&quot;ward&quot;</span>)</span>
+<span id="cb125-321"><a href="#cb125-321" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(farms_k))</span>
+<span id="cb125-322"><a href="#cb125-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-323"><a href="#cb125-323" aria-hidden="true" tabindex="-1"></a>farms_k<span class="sc">$</span>dist_town_km <span class="ot">&lt;-</span> <span class="fu">distance</span>(farms_k, kericho_town)[, <span class="dv">1</span>] <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb125-324"><a href="#cb125-324" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(farms_k<span class="sc">$</span>dist_town_km)</span>
+<span id="cb125-325"><a href="#cb125-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-326"><a href="#cb125-326" aria-hidden="true" tabindex="-1"></a>farms_near <span class="ot">&lt;-</span> farms_k[<span class="fu">is.related</span>(farms_k, town_buf, <span class="st">&quot;intersects&quot;</span>), ]</span>
+<span id="cb125-327"><a href="#cb125-327" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(farms_near)</span>
+<span id="cb125-328"><a href="#cb125-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-329"><a href="#cb125-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-330"><a href="#cb125-330" aria-hidden="true" tabindex="-1"></a><span class="fu">### Aggregate to ward level</span></span>
+<span id="cb125-331"><a href="#cb125-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-334"><a href="#cb125-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-335"><a href="#cb125-335" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ward-summary</span></span>
+<span id="cb125-336"><a href="#cb125-336" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb125-337"><a href="#cb125-337" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb125-338"><a href="#cb125-338" aria-hidden="true" tabindex="-1"></a>ward_summary <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(farms_k) <span class="sc">|&gt;</span></span>
+<span id="cb125-339"><a href="#cb125-339" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ward) <span class="sc">|&gt;</span></span>
+<span id="cb125-340"><a href="#cb125-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_farms     =</span> <span class="fu">n</span>(),</span>
+<span id="cb125-341"><a href="#cb125-341" aria-hidden="true" tabindex="-1"></a>            <span class="at">share_tea   =</span> <span class="fu">mean</span>(crop <span class="sc">==</span> <span class="st">&quot;tea&quot;</span>),</span>
+<span id="cb125-342"><a href="#cb125-342" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_income =</span> <span class="fu">mean</span>(income_kes),</span>
+<span id="cb125-343"><a href="#cb125-343" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb125-344"><a href="#cb125-344" aria-hidden="true" tabindex="-1"></a>ward_summary</span>
+<span id="cb125-345"><a href="#cb125-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-346"><a href="#cb125-346" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb125-347"><a href="#cb125-347" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_as_sf</span>(wards), <span class="at">fill =</span> <span class="st">&quot;grey95&quot;</span>) <span class="sc">+</span></span>
+<span id="cb125-348"><a href="#cb125-348" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_as_sf</span>(farms_k), <span class="fu">aes</span>(<span class="at">colour =</span> crop)) <span class="sc">+</span></span>
+<span id="cb125-349"><a href="#cb125-349" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb125-350"><a href="#cb125-350" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-351"><a href="#cb125-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-354"><a href="#cb125-354" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-355"><a href="#cb125-355" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: day1-save</span></span>
+<span id="cb125-356"><a href="#cb125-356" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(farms_k, <span class="st">&quot;output/kericho_farms.gpkg&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-357"><a href="#cb125-357" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(wards,   <span class="st">&quot;output/kericho_wards.gpkg&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-358"><a href="#cb125-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-359"><a href="#cb125-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-360"><a href="#cb125-360" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.5 Exercise</span></span>
+<span id="cb125-361"><a href="#cb125-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-362"><a href="#cb125-362" aria-hidden="true" tabindex="-1"></a>a) Draw your own &quot;tea estate&quot; with mapedit and compute its area in ha.</span>
+<span id="cb125-363"><a href="#cb125-363" aria-hidden="true" tabindex="-1"></a>b) How many simulated farms lie within 5 km of it? Mean income of those farms?</span>
+<span id="cb125-364"><a href="#cb125-364" aria-hidden="true" tabindex="-1"></a>c) Which ward has the highest share of tea farms?</span>
+<span id="cb125-365"><a href="#cb125-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-366"><a href="#cb125-366" aria-hidden="true" tabindex="-1"></a><span class="fu"># Day 2 — Raster data (Thu 12.11.2026)</span></span>
+<span id="cb125-367"><a href="#cb125-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-368"><a href="#cb125-368" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Time <span class="pp">|</span> Block <span class="pp">|</span></span>
+<span id="cb125-369"><a href="#cb125-369" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb125-370"><a href="#cb125-370" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:15–16:20 <span class="pp">|</span> 2.0 Recap + reload <span class="pp">|</span></span>
+<span id="cb125-371"><a href="#cb125-371" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:20–16:35 <span class="pp">|</span> 2.1 A raster from scratch <span class="pp">|</span></span>
+<span id="cb125-372"><a href="#cb125-372" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:35–16:55 <span class="pp">|</span> 2.2 Elevation + climate, crop/mask, multi-layer <span class="pp">|</span></span>
+<span id="cb125-373"><a href="#cb125-373" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 16:55–17:05 <span class="pp">|</span> Break <span class="pp">|</span></span>
+<span id="cb125-374"><a href="#cb125-374" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 17:05–17:20 <span class="pp">|</span> 2.3 Raster algebra, reclassification, tea suitability <span class="pp">|</span></span>
+<span id="cb125-375"><a href="#cb125-375" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 17:20–17:40 <span class="pp">|</span> 2.4 Rasters → variables (farms, wards) <span class="pp">|</span></span>
+<span id="cb125-376"><a href="#cb125-376" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 17:40–17:45 <span class="pp">|</span> 2.5 Exercise + bridge to GEE <span class="pp">|</span></span>
+<span id="cb125-377"><a href="#cb125-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-378"><a href="#cb125-378" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb125-379"><a href="#cb125-379" aria-hidden="true" tabindex="-1"></a><span class="in">`worldclim_country()`</span> downloads 100+ MB per variable. Run the downloads in 2.2 at home before class.</span>
+<span id="cb125-380"><a href="#cb125-380" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb125-381"><a href="#cb125-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-382"><a href="#cb125-382" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.0 Recap + reload</span></span>
+<span id="cb125-383"><a href="#cb125-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-386"><a href="#cb125-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-387"><a href="#cb125-387" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: reload</span></span>
+<span id="cb125-388"><a href="#cb125-388" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb125-389"><a href="#cb125-389" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb125-390"><a href="#cb125-390" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
+<span id="cb125-391"><a href="#cb125-391" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb125-392"><a href="#cb125-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-393"><a href="#cb125-393" aria-hidden="true" tabindex="-1"></a>farms   <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;output/kericho_farms.gpkg&quot;</span>)</span>
+<span id="cb125-394"><a href="#cb125-394" aria-hidden="true" tabindex="-1"></a>wards   <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">&quot;output/kericho_wards.gpkg&quot;</span>)</span>
+<span id="cb125-395"><a href="#cb125-395" aria-hidden="true" tabindex="-1"></a>kericho <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(wards)            <span class="co"># dissolve wards -&gt; county outline</span></span>
+<span id="cb125-396"><a href="#cb125-396" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kericho); <span class="fu">plot</span>(farms, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb125-397"><a href="#cb125-397" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-398"><a href="#cb125-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-399"><a href="#cb125-399" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.1 A raster from scratch</span></span>
+<span id="cb125-400"><a href="#cb125-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-403"><a href="#cb125-403" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-404"><a href="#cb125-404" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: raster-scratch</span></span>
+<span id="cb125-405"><a href="#cb125-405" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="at">nrows =</span> <span class="dv">5</span>, <span class="at">ncols =</span> <span class="dv">5</span>, <span class="at">xmin =</span> <span class="fl">35.0</span>, <span class="at">xmax =</span> <span class="fl">35.5</span>,</span>
+<span id="cb125-406"><a href="#cb125-406" aria-hidden="true" tabindex="-1"></a>          <span class="at">ymin =</span> <span class="sc">-</span><span class="fl">0.6</span>, <span class="at">ymax =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">crs =</span> <span class="st">&quot;EPSG:4326&quot;</span>)</span>
+<span id="cb125-407"><a href="#cb125-407" aria-hidden="true" tabindex="-1"></a>r</span>
+<span id="cb125-408"><a href="#cb125-408" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(r) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncell</span>(r)</span>
+<span id="cb125-409"><a href="#cb125-409" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r); <span class="fu">text</span>(r)</span>
+<span id="cb125-410"><a href="#cb125-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-411"><a href="#cb125-411" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(r)</span>
+<span id="cb125-412"><a href="#cb125-412" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(r)</span>
+<span id="cb125-413"><a href="#cb125-413" aria-hidden="true" tabindex="-1"></a><span class="fu">ncell</span>(r)</span>
+<span id="cb125-414"><a href="#cb125-414" aria-hidden="true" tabindex="-1"></a>r[<span class="dv">3</span>, <span class="dv">3</span>]</span>
+<span id="cb125-415"><a href="#cb125-415" aria-hidden="true" tabindex="-1"></a><span class="fu">cellFromXY</span>(r, <span class="fu">cbind</span>(<span class="fl">35.28</span>, <span class="sc">-</span><span class="fl">0.37</span>))</span>
+<span id="cb125-416"><a href="#cb125-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-417"><a href="#cb125-417" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> r <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb125-418"><a href="#cb125-418" aria-hidden="true" tabindex="-1"></a>r_stack <span class="ot">&lt;-</span> <span class="fu">c</span>(r, r2)</span>
+<span id="cb125-419"><a href="#cb125-419" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(r_stack) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;original&quot;</span>, <span class="st">&quot;doubled&quot;</span>)</span>
+<span id="cb125-420"><a href="#cb125-420" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r_stack)</span>
+<span id="cb125-421"><a href="#cb125-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-422"><a href="#cb125-422" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">aggregate</span>(r, <span class="at">fact =</span> <span class="dv">2</span>, <span class="at">fun =</span> <span class="st">&quot;mean&quot;</span>))</span>
+<span id="cb125-423"><a href="#cb125-423" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-424"><a href="#cb125-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-425"><a href="#cb125-425" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.2 Real rasters: elevation and climate</span></span>
+<span id="cb125-426"><a href="#cb125-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-427"><a href="#cb125-427" aria-hidden="true" tabindex="-1"></a><span class="fu">### Elevation (SRTM-based, 30 arc-sec ≈ 1 km)</span></span>
+<span id="cb125-428"><a href="#cb125-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-431"><a href="#cb125-431" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-432"><a href="#cb125-432" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dl-elev</span></span>
+<span id="cb125-433"><a href="#cb125-433" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
+<span id="cb125-434"><a href="#cb125-434" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">elevation_30s</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">path =</span> <span class="st">&quot;data&quot;</span>)</span>
+<span id="cb125-435"><a href="#cb125-435" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-436"><a href="#cb125-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-439"><a href="#cb125-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-440"><a href="#cb125-440" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: elev</span></span>
+<span id="cb125-441"><a href="#cb125-441" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/elevation/KEN_elv_msk.tif&quot;</span>)</span>
+<span id="cb125-442"><a href="#cb125-442" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev)</span>
+<span id="cb125-443"><a href="#cb125-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-444"><a href="#cb125-444" aria-hidden="true" tabindex="-1"></a>elev_k <span class="ot">&lt;-</span> <span class="fu">crop</span>(elev, kericho)</span>
+<span id="cb125-445"><a href="#cb125-445" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_k); <span class="fu">plot</span>(kericho, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-446"><a href="#cb125-446" aria-hidden="true" tabindex="-1"></a>elev_k <span class="ot">&lt;-</span> <span class="fu">mask</span>(elev_k, kericho)</span>
+<span id="cb125-447"><a href="#cb125-447" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_k, <span class="at">main =</span> <span class="st">&quot;Elevation (m)&quot;</span>)</span>
+<span id="cb125-448"><a href="#cb125-448" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(elev_k, <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>, <span class="st">&quot;mean&quot;</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-449"><a href="#cb125-449" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(elev_k, <span class="at">main =</span> <span class="st">&quot;Elevation distribution&quot;</span>)</span>
+<span id="cb125-450"><a href="#cb125-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-451"><a href="#cb125-451" aria-hidden="true" tabindex="-1"></a>slope_k <span class="ot">&lt;-</span> <span class="fu">terrain</span>(elev_k, <span class="at">v =</span> <span class="st">&quot;slope&quot;</span>, <span class="at">unit =</span> <span class="st">&quot;degrees&quot;</span>)</span>
+<span id="cb125-452"><a href="#cb125-452" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slope_k, <span class="at">main =</span> <span class="st">&quot;Slope (deg)&quot;</span>)</span>
+<span id="cb125-453"><a href="#cb125-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-454"><a href="#cb125-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-455"><a href="#cb125-455" aria-hidden="true" tabindex="-1"></a><span class="fu">### Climate (WorldClim 2.1 monthly normals)</span></span>
+<span id="cb125-456"><a href="#cb125-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-459"><a href="#cb125-459" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-460"><a href="#cb125-460" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dl-climate</span></span>
+<span id="cb125-461"><a href="#cb125-461" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
+<span id="cb125-462"><a href="#cb125-462" aria-hidden="true" tabindex="-1"></a>prec <span class="ot">&lt;-</span> <span class="fu">worldclim_country</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">var =</span> <span class="st">&quot;prec&quot;</span>, <span class="at">path =</span> <span class="st">&quot;data&quot;</span>)</span>
+<span id="cb125-463"><a href="#cb125-463" aria-hidden="true" tabindex="-1"></a>tavg <span class="ot">&lt;-</span> <span class="fu">worldclim_country</span>(<span class="st">&quot;KEN&quot;</span>, <span class="at">var =</span> <span class="st">&quot;tavg&quot;</span>, <span class="at">path =</span> <span class="st">&quot;data&quot;</span>)</span>
+<span id="cb125-464"><a href="#cb125-464" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-465"><a href="#cb125-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-468"><a href="#cb125-468" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-469"><a href="#cb125-469" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: climate</span></span>
+<span id="cb125-470"><a href="#cb125-470" aria-hidden="true" tabindex="-1"></a>prec <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/climate/wc2.1_country/KEN_wc2.1_30s_prec.tif&quot;</span>)</span>
+<span id="cb125-471"><a href="#cb125-471" aria-hidden="true" tabindex="-1"></a>tavg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/climate/wc2.1_country/KEN_wc2.1_30s_tavg.tif&quot;</span>)</span>
+<span id="cb125-472"><a href="#cb125-472" aria-hidden="true" tabindex="-1"></a><span class="fu">nlyr</span>(prec)</span>
+<span id="cb125-473"><a href="#cb125-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-474"><a href="#cb125-474" aria-hidden="true" tabindex="-1"></a>prec_k <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(prec, kericho), kericho)</span>
+<span id="cb125-475"><a href="#cb125-475" aria-hidden="true" tabindex="-1"></a>tavg_k <span class="ot">&lt;-</span> <span class="fu">mask</span>(<span class="fu">crop</span>(tavg, kericho), kericho)</span>
+<span id="cb125-476"><a href="#cb125-476" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(prec_k) <span class="ot">&lt;-</span> <span class="fu">names</span>(tavg_k) <span class="ot">&lt;-</span> month.abb</span>
+<span id="cb125-477"><a href="#cb125-477" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prec_k)</span>
+<span id="cb125-478"><a href="#cb125-478" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prec_k[[<span class="st">&quot;Apr&quot;</span>]], <span class="at">main =</span> <span class="st">&quot;April precipitation (mm)&quot;</span>)</span>
+<span id="cb125-479"><a href="#cb125-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-480"><a href="#cb125-480" aria-hidden="true" tabindex="-1"></a>prec_annual <span class="ot">&lt;-</span> <span class="fu">sum</span>(prec_k)</span>
+<span id="cb125-481"><a href="#cb125-481" aria-hidden="true" tabindex="-1"></a>tavg_annual <span class="ot">&lt;-</span> <span class="fu">mean</span>(tavg_k)</span>
+<span id="cb125-482"><a href="#cb125-482" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(prec_annual, tavg_annual), <span class="at">main =</span> <span class="fu">c</span>(<span class="st">&quot;Annual rain (mm)&quot;</span>, <span class="st">&quot;Mean temp (°C)&quot;</span>))</span>
+<span id="cb125-483"><a href="#cb125-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-484"><a href="#cb125-484" aria-hidden="true" tabindex="-1"></a><span class="fu">compareGeom</span>(elev_k, prec_annual, <span class="at">stopOnError =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-485"><a href="#cb125-485" aria-hidden="true" tabindex="-1"></a>prec_annual <span class="ot">&lt;-</span> <span class="fu">resample</span>(prec_annual, elev_k, <span class="at">method =</span> <span class="st">&quot;bilinear&quot;</span>)</span>
+<span id="cb125-486"><a href="#cb125-486" aria-hidden="true" tabindex="-1"></a>tavg_annual <span class="ot">&lt;-</span> <span class="fu">resample</span>(tavg_annual, elev_k, <span class="at">method =</span> <span class="st">&quot;bilinear&quot;</span>)</span>
+<span id="cb125-487"><a href="#cb125-487" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-488"><a href="#cb125-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-489"><a href="#cb125-489" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.3 Raster algebra, reclassification, tea suitability</span></span>
+<span id="cb125-490"><a href="#cb125-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-493"><a href="#cb125-493" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-494"><a href="#cb125-494" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: algebra</span></span>
+<span id="cb125-495"><a href="#cb125-495" aria-hidden="true" tabindex="-1"></a>rcl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">1500</span>, <span class="dv">1</span>,</span>
+<span id="cb125-496"><a href="#cb125-496" aria-hidden="true" tabindex="-1"></a>                <span class="dv">1500</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
+<span id="cb125-497"><a href="#cb125-497" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2000</span>, <span class="dv">2500</span>, <span class="dv">3</span>,</span>
+<span id="cb125-498"><a href="#cb125-498" aria-hidden="true" tabindex="-1"></a>                <span class="dv">2500</span>,  <span class="cn">Inf</span>, <span class="dv">4</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-499"><a href="#cb125-499" aria-hidden="true" tabindex="-1"></a>elev_zone <span class="ot">&lt;-</span> <span class="fu">classify</span>(elev_k, rcl)</span>
+<span id="cb125-500"><a href="#cb125-500" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(elev_zone) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb125-501"><a href="#cb125-501" aria-hidden="true" tabindex="-1"></a>                                <span class="at">zone =</span> <span class="fu">c</span>(<span class="st">&quot;&lt;1500&quot;</span>, <span class="st">&quot;1500–2000&quot;</span>, <span class="st">&quot;2000–2500&quot;</span>, <span class="st">&quot;&gt;2500&quot;</span>))</span>
+<span id="cb125-502"><a href="#cb125-502" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_zone, <span class="at">main =</span> <span class="st">&quot;Elevation zones (m)&quot;</span>)</span>
+<span id="cb125-503"><a href="#cb125-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-504"><a href="#cb125-504" aria-hidden="true" tabindex="-1"></a>tea_suit <span class="ot">&lt;-</span> elev_k <span class="sc">&gt;=</span> <span class="dv">1500</span> <span class="sc">&amp;</span> elev_k <span class="sc">&lt;=</span> <span class="dv">2700</span> <span class="sc">&amp;</span></span>
+<span id="cb125-505"><a href="#cb125-505" aria-hidden="true" tabindex="-1"></a>            prec_annual <span class="sc">&gt;=</span> <span class="dv">1200</span> <span class="sc">&amp;</span></span>
+<span id="cb125-506"><a href="#cb125-506" aria-hidden="true" tabindex="-1"></a>            tavg_annual <span class="sc">&gt;=</span> <span class="dv">13</span> <span class="sc">&amp;</span> tavg_annual <span class="sc">&lt;=</span> <span class="dv">25</span> <span class="sc">&amp;</span></span>
+<span id="cb125-507"><a href="#cb125-507" aria-hidden="true" tabindex="-1"></a>            slope_k <span class="sc">&lt;</span> <span class="dv">30</span></span>
+<span id="cb125-508"><a href="#cb125-508" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tea_suit, <span class="at">main =</span> <span class="st">&quot;Suitable for tea (rule-based)&quot;</span>)</span>
+<span id="cb125-509"><a href="#cb125-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-510"><a href="#cb125-510" aria-hidden="true" tabindex="-1"></a>rain_score <span class="ot">&lt;-</span> <span class="fu">ifel</span>(prec_annual <span class="sc">&gt;</span> <span class="dv">1800</span>, <span class="dv">1</span>, prec_annual <span class="sc">/</span> <span class="dv">1800</span>)</span>
+<span id="cb125-511"><a href="#cb125-511" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rain_score)</span>
+<span id="cb125-512"><a href="#cb125-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-513"><a href="#cb125-513" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(<span class="fu">cellSize</span>(tea_suit, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>) <span class="sc">*</span> tea_suit, <span class="st">&quot;sum&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-514"><a href="#cb125-514" aria-hidden="true" tabindex="-1"></a><span class="fu">expanse</span>(kericho, <span class="at">unit =</span> <span class="st">&quot;km&quot;</span>)</span>
+<span id="cb125-515"><a href="#cb125-515" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-516"><a href="#cb125-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-517"><a href="#cb125-517" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.4 From rasters to variables</span></span>
+<span id="cb125-518"><a href="#cb125-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-521"><a href="#cb125-521" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-522"><a href="#cb125-522" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: covs</span></span>
+<span id="cb125-523"><a href="#cb125-523" aria-hidden="true" tabindex="-1"></a>covs <span class="ot">&lt;-</span> <span class="fu">c</span>(elev_k, slope_k, prec_annual, tavg_annual, tea_suit)</span>
+<span id="cb125-524"><a href="#cb125-524" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(covs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;elev_m&quot;</span>, <span class="st">&quot;slope_deg&quot;</span>, <span class="st">&quot;prec_mm&quot;</span>, <span class="st">&quot;tavg_c&quot;</span>, <span class="st">&quot;tea_suitable&quot;</span>)</span>
+<span id="cb125-525"><a href="#cb125-525" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(covs)</span>
+<span id="cb125-526"><a href="#cb125-526" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-527"><a href="#cb125-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-528"><a href="#cb125-528" aria-hidden="true" tabindex="-1"></a><span class="fu">### Farm level: points and buffers</span></span>
+<span id="cb125-529"><a href="#cb125-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-530"><a href="#cb125-530" aria-hidden="true" tabindex="-1"></a><span class="in">`tidyverse`</span> masks <span class="in">`terra::extract`</span> with <span class="in">`tidyr::extract`</span>, so always write <span class="in">`terra::extract`</span>.</span>
+<span id="cb125-531"><a href="#cb125-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-534"><a href="#cb125-534" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-535"><a href="#cb125-535" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: extract-farms</span></span>
+<span id="cb125-536"><a href="#cb125-536" aria-hidden="true" tabindex="-1"></a>farm_env <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(covs, farms, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-537"><a href="#cb125-537" aria-hidden="true" tabindex="-1"></a>farms_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(farms), farm_env)</span>
+<span id="cb125-538"><a href="#cb125-538" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(farms_df)</span>
+<span id="cb125-539"><a href="#cb125-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-540"><a href="#cb125-540" aria-hidden="true" tabindex="-1"></a>farm_env_1km <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(covs[[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]], <span class="fu">buffer</span>(farms, <span class="dv">1000</span>), <span class="at">fun =</span> mean,</span>
+<span id="cb125-541"><a href="#cb125-541" aria-hidden="true" tabindex="-1"></a>                               <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-542"><a href="#cb125-542" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(farm_env_1km) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">names</span>(farm_env_1km), <span class="st">&quot;_1km&quot;</span>)</span>
+<span id="cb125-543"><a href="#cb125-543" aria-hidden="true" tabindex="-1"></a>farms_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(farms_df, farm_env_1km)</span>
+<span id="cb125-544"><a href="#cb125-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-545"><a href="#cb125-545" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(farms_df, <span class="fu">aes</span>(elev_m, income_kes, <span class="at">colour =</span> crop)) <span class="sc">+</span></span>
+<span id="cb125-546"><a href="#cb125-546" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb125-547"><a href="#cb125-547" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-548"><a href="#cb125-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-549"><a href="#cb125-549" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ward level: zonal statistics</span></span>
+<span id="cb125-550"><a href="#cb125-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-553"><a href="#cb125-553" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-554"><a href="#cb125-554" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: zonal</span></span>
+<span id="cb125-555"><a href="#cb125-555" aria-hidden="true" tabindex="-1"></a>ward_env <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(covs[[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]], wards, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">ID =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-556"><a href="#cb125-556" aria-hidden="true" tabindex="-1"></a>ward_df  <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(wards)[, <span class="fu">c</span>(<span class="st">&quot;NAME_2&quot;</span>, <span class="st">&quot;NAME_3&quot;</span>)], ward_env)</span>
+<span id="cb125-557"><a href="#cb125-557" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ward_df)</span>
+<span id="cb125-558"><a href="#cb125-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-559"><a href="#cb125-559" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(exactextractr)</span>
+<span id="cb125-560"><a href="#cb125-560" aria-hidden="true" tabindex="-1"></a>wards_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(wards)</span>
+<span id="cb125-561"><a href="#cb125-561" aria-hidden="true" tabindex="-1"></a>ward_exact <span class="ot">&lt;-</span> <span class="fu">exact_extract</span>(covs[[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]], wards_sf, <span class="st">&quot;mean&quot;</span>, <span class="at">append_cols =</span> <span class="st">&quot;NAME_3&quot;</span>,</span>
+<span id="cb125-562"><a href="#cb125-562" aria-hidden="true" tabindex="-1"></a>                            <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-563"><a href="#cb125-563" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ward_exact)</span>
+<span id="cb125-564"><a href="#cb125-564" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-565"><a href="#cb125-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-566"><a href="#cb125-566" aria-hidden="true" tabindex="-1"></a><span class="fu">### Panel-style table: ward × month rainfall</span></span>
+<span id="cb125-567"><a href="#cb125-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-570"><a href="#cb125-570" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-571"><a href="#cb125-571" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ward-month</span></span>
+<span id="cb125-572"><a href="#cb125-572" aria-hidden="true" tabindex="-1"></a>ward_month <span class="ot">&lt;-</span> <span class="fu">exact_extract</span>(prec_k, wards_sf, <span class="st">&quot;mean&quot;</span>, <span class="at">append_cols =</span> <span class="st">&quot;NAME_3&quot;</span>,</span>
+<span id="cb125-573"><a href="#cb125-573" aria-hidden="true" tabindex="-1"></a>                            <span class="at">progress =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb125-574"><a href="#cb125-574" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>NAME_3, <span class="at">names_to =</span> <span class="st">&quot;month&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;prec_mm&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb125-575"><a href="#cb125-575" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(<span class="fu">sub</span>(<span class="st">&quot;mean.&quot;</span>, <span class="st">&quot;&quot;</span>, month), <span class="at">levels =</span> month.abb))</span>
+<span id="cb125-576"><a href="#cb125-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-577"><a href="#cb125-577" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ward_month, <span class="fu">aes</span>(month, prec_mm, <span class="at">group =</span> NAME_3)) <span class="sc">+</span></span>
+<span id="cb125-578"><a href="#cb125-578" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb125-579"><a href="#cb125-579" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-580"><a href="#cb125-580" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-581"><a href="#cb125-581" aria-hidden="true" tabindex="-1"></a><span class="fu">### Save *(not run)*</span></span>
+<span id="cb125-582"><a href="#cb125-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-585"><a href="#cb125-585" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb125-586"><a href="#cb125-586" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: day2-save</span></span>
+<span id="cb125-587"><a href="#cb125-587" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb125-588"><a href="#cb125-588" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(covs, <span class="st">&quot;output/kericho_covariates.tif&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb125-589"><a href="#cb125-589" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(farms_df, <span class="st">&quot;output/farms_with_covariates.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-590"><a href="#cb125-590" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ward_df,  <span class="st">&quot;output/wards_with_covariates.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-591"><a href="#cb125-591" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb125-592"><a href="#cb125-592" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-593"><a href="#cb125-593" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2.5 Exercise and bridge to Google Earth Engine</span></span>
+<span id="cb125-594"><a href="#cb125-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-595"><a href="#cb125-595" aria-hidden="true" tabindex="-1"></a>a) Share of each ward&#39;s area that is &quot;suitable for tea&quot; (hint: <span class="in">`exact_extract()`</span> with <span class="in">`&quot;mean&quot;`</span> on <span class="in">`tea_suit`</span>).</span>
+<span id="cb125-596"><a href="#cb125-596" aria-hidden="true" tabindex="-1"></a>b) Wettest month per ward from <span class="in">`ward_month`</span>.</span>
+<span id="cb125-597"><a href="#cb125-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-598"><a href="#cb125-598" aria-hidden="true" tabindex="-1"></a>These were ~1 km static layers that fit on a laptop. Satellite images (10–30 m,</span>
+<span id="cb125-599"><a href="#cb125-599" aria-hidden="true" tabindex="-1"></a>every few days, years of data) do not, so from next week the same logic (crop,</span>
+<span id="cb125-600"><a href="#cb125-600" aria-hidden="true" tabindex="-1"></a>mask, algebra, extract, zonal statistics) moves to Google Earth Engine.</span>
+<span id="cb125-601"><a href="#cb125-601" aria-hidden="true" tabindex="-1"></a>**Homework:** register at <span class="ot">&lt;https://code.earthengine.google.com&gt;</span> with a</span>
+<span id="cb125-602"><a href="#cb125-602" aria-hidden="true" tabindex="-1"></a>noncommercial (education) Cloud project before 19.11.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
