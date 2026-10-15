@@ -1,7 +1,23 @@
 ---
-title: "ENV-320 Satellite Data in Agricultural Economics"
-subtitle: "R tutorials — Day 1: Vector data · Day 2: Raster data"
-author: "Wyclife Agumba Oluoch, Land Economics Group, University of Bonn"
+title: "<span style='color: #003366; font-weight: bold;'>ENV-320: Satellite Data in Agricultural Economics</span>"
+subtitle: "<span style='color: green;'>R tutorials — Day 1: Vector data · Day 2: Raster data</span>"
+author:
+  - name: David Wuepper
+    affiliations:
+      - ref: bonn-land-econ
+  - name: Marc Russwurm
+    affiliations:
+      - ref: bonn-meo-lab
+  - name: Wyclife Agumba Oluoch
+    affiliations:
+      - ref: bonn-land-econ
+affiliations:
+  - id: bonn-land-econ
+    name: "Land Economics Group, University of Bonn"
+    url: "https://www.ilr1.uni-bonn.de/en/research/research-groups/land-economics"
+  - id: bonn-meo-lab
+    name: "Machine Learning in Earth Observation Laboratory"
+    url: "https://meo-lab.com/"
 date: last-modified
 format:
   html:
@@ -21,9 +37,18 @@ Study area for the whole course: **Kericho County, Kenya** (tea highlands).
 Chunks marked *not run* are shown for you to run yourself in RStudio; they are
 interactive, install software, or only matter on your own computer.
 
-# 0. Setup (before Day 1)
+::: {.callout-tip}
+## Who are we?
+* _Name_ 
+* _Home Country/Town_ 
+* _Experience with R/GEE/Python_ 
+* _Project/Research idea_
 
-- Install R (≥ 4.4) and RStudio.
+:::
+
+# 0. Setup
+
+- Install `R` (≥ 4.4) and `RStudio`.
 - *File › New Project › New Directory* › `env320` (keeps paths simple).
 
 ```{r}
@@ -82,6 +107,7 @@ nrow(farms_df)
 #| label: help
 #| eval: false
 ?mean
+help(mean)
 ```
 
 ## 1.2 Points
@@ -105,7 +131,7 @@ crs(towns, describe = TRUE)
 
 ```{r}
 #| label: points-csv
-set.seed(320)
+set.seed(248)
 n <- 60
 farms <- data.frame(
   farm_id    = 1:n,
@@ -197,12 +223,15 @@ Level 1 = county, 2 = sub-county, 3 = ward.
 #| label: gadm
 #| cache: true
 library(geodata)
-ken1 <- gadm("KEN", level = 1, path = "data")
-ken3 <- gadm("KEN", level = 3, path = "data")
+ken1 <- gadm("KEN", level = 1, path = tempdir())
+ken3 <- gadm("KEN", level = 3, path = tempdir())
 ```
 
 ```{r}
 #| label: gadm-plot
+
+ken1 <- vect("data/gadm/gadm41_KEN_1_pk.rds")
+ken3 <- vect("data/gadm/gadm41_KEN_3_pk.rds")
 kericho <- ken1[ken1$NAME_1 == "Kericho", ]
 wards   <- ken3[ken3$NAME_1 == "Kericho", ]
 nrow(wards)
@@ -362,7 +391,7 @@ elev <- elevation_30s("KEN", path = "data")
 
 ```{r}
 #| label: elev
-elev
+elev <- rast("data/elevation/KEN_elv_msk.tif")
 plot(elev)
 
 elev_k <- crop(elev, kericho)
@@ -387,7 +416,8 @@ tavg <- worldclim_country("KEN", var = "tavg", path = "data")
 
 ```{r}
 #| label: climate
-prec
+prec <- rast("data/climate/wc2.1_country/KEN_wc2.1_30s_prec.tif")
+tavg <- rast("data/climate/wc2.1_country/KEN_wc2.1_30s_tavg.tif")
 nlyr(prec)
 
 prec_k <- mask(crop(prec, kericho), kericho)
