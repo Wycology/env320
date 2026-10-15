@@ -229,9 +229,10 @@ ken3 <- gadm("KEN", level = 3, path = tempdir())
 
 ```{r}
 #| label: gadm-plot
-
+library(terra)
 ken1 <- vect("data/gadm/gadm41_KEN_1_pk.rds")
 ken3 <- vect("data/gadm/gadm41_KEN_3_pk.rds")
+
 kericho <- ken1[ken1$NAME_1 == "Kericho", ]
 wards   <- ken3[ken3$NAME_1 == "Kericho", ]
 nrow(wards)
