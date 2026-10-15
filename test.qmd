@@ -221,18 +221,14 @@ Level 1 = county, 2 = sub-county, 3 = ward.
 
 ```{r}
 #| label: gadm
-#| cache: true
 library(geodata)
-ken1 <- gadm("KEN", level = 1, path = tempdir())
-ken3 <- gadm("KEN", level = 3, path = tempdir())
+library(geodata)
+ken1 <- gadm("KEN", level = 1, path = "data")
+ken3 <- gadm("KEN", level = 3, path = "data")
 ```
 
 ```{r}
 #| label: gadm-plot
-library(terra)
-ken1 <- terra::vect("data/gadm/gadm41_KEN_1_pk.rds")
-ken3 <- terra::vect("data/gadm/gadm41_KEN_3_pk.rds")
-
 kericho <- ken1[ken1$NAME_1 == "Kericho", ]
 wards   <- ken3[ken3$NAME_1 == "Kericho", ]
 nrow(wards)
@@ -386,13 +382,12 @@ plot(aggregate(r, fact = 2, fun = "mean"))
 
 ```{r}
 #| label: dl-elev
-#| cache: true
 elev <- elevation_30s("KEN", path = "data")
 ```
 
 ```{r}
 #| label: elev
-elev <- rast("data/elevation/KEN_elv_msk.tif")
+
 plot(elev)
 
 elev_k <- crop(elev, kericho)
@@ -410,17 +405,12 @@ plot(slope_k, main = "Slope (deg)")
 
 ```{r}
 #| label: dl-climate
-#| cache: true
 prec <- worldclim_country("KEN", var = "prec", path = "data")
 tavg <- worldclim_country("KEN", var = "tavg", path = "data")
 ```
 
 ```{r}
 #| label: climate
-prec <- rast("data/climate/wc2.1_country/KEN_wc2.1_30s_prec.tif")
-tavg <- rast("data/climate/wc2.1_country/KEN_wc2.1_30s_tavg.tif")
-nlyr(prec)
-
 prec_k <- mask(crop(prec, kericho), kericho)
 tavg_k <- mask(crop(tavg, kericho), kericho)
 names(prec_k) <- names(tavg_k) <- month.abb
