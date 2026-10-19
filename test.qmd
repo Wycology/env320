@@ -31,19 +31,18 @@ format:
 execute:
   warning: false
   message: false
+bibliography: references.bib
 ---
 
-Study area for the whole course: **Kericho County, Kenya** (tea highlands).
-Chunks marked *not run* are shown for you to run yourself in RStudio; they are
-interactive, install software, or only matter on your own computer.
+Study area for the whole course: **Kericho County, Kenya** (tea highlands). Chunks marked *not run* are shown for you to run yourself in `RStudio`; they are interactive, install software, or only matter on your own computer.
 
-::: {.callout-tip}
+::: callout-tip
 ## Who are we?
-* _Name_ 
-* _Home Country/Town_ 
-* _Experience with R/GEE/Python_ 
-* _Project/Research idea_
 
+- *Name*
+- *Home Country/Town*
+- *Experience with R/GEE/Python*
+- *Project/Research idea*
 :::
 
 # 0. Setup
@@ -67,14 +66,14 @@ dir.create("output", showWarnings = FALSE)
 
 # Day 1 — Vector data (Thu 05.11.2026)
 
-| Time | Block |
-|---|---|
-| 16:15–16:30 | 1.1 RStudio tour + R in 15 minutes |
-| 16:30–16:55 | 1.2 Points |
-| 16:55–17:05 | Break |
+| Time        | Block                                          |
+|-------------|------------------------------------------------|
+| 16:15–16:30 | 1.1 RStudio tour + R in 15 minutes             |
+| 16:30–16:55 | 1.2 Points                                     |
+| 16:55–17:05 | Break                                          |
 | 17:05–17:20 | 1.3 Lines and polygons; real boundaries (GADM) |
-| 17:20–17:40 | 1.4 Vector operations |
-| 17:40–17:45 | 1.5 Exercise |
+| 17:20–17:40 | 1.4 Vector operations                          |
+| 17:40–17:45 | 1.5 Exercise                                   |
 
 ## 1.1 R in 15 minutes
 
@@ -114,6 +113,8 @@ help(mean)
 
 ### From coordinates
 
+From here we will start bringing in packages that are helpful in working with geospatial data, such as `terra` [@terra]. This is useful in handling both vector and raster data in `R`.
+
 ```{r}
 #| label: points-coords
 library(terra)
@@ -128,6 +129,8 @@ crs(towns, describe = TRUE)
 ```
 
 ### From a data.frame / csv
+
+Often we get point data as .csv files from the field with geospatial attributes such as longitude and latitude values that we can use to make them geospatial.
 
 ```{r}
 #| label: points-csv
@@ -153,13 +156,14 @@ farms_v
 
 ### By drawing (mapedit)
 
+Even though classical creating of points, lines, and polygons should happen in dedicated GIS software like `QGIS`, here we will do the same in `R`, thanks to the `mapedit` [@mapedit] package. The output of mapedit is by default an `sf` object and we need to `vect` it to align with `terra`.
+
 Opens a viewer: draw points, click *Done*. *(not run)*
 
 ```{r}
 #| label: mapedit
 #| eval: false
 library(mapedit)
-library(mapview)
 drawn <- drawFeatures()
 drawn_v <- vect(drawn)
 drawn_v
@@ -175,6 +179,8 @@ text(towns[towns$name == "Kericho"], labels = "name", pos = 3)
 ```
 
 ### Interactive map *(not run)*
+
+Other than making a static plot, we can also have an interactive map where we can zoom in and out and query points to get more information about them. For that, we can use `sf` [@sf]and `mapview` [@mapview]packages.
 
 ```{r}
 #| label: mapview
@@ -201,6 +207,8 @@ list.files("output")
 
 ## 1.3 Lines and polygons
 
+We can connect a series of points to form a line. If the points happen to end at the same starting point (last coordinate same as the first coordinate), then it froms a polygon. This is defined in the type argument in `vect` function.
+
 ```{r}
 #| label: lines-polys
 route <- vect(rbind(c(35.2863, -0.3677), c(36.0800, -0.3031), c(36.8219, -1.2921)),
@@ -217,11 +225,12 @@ expanse(estate, unit = "ha")
 
 ### Real boundaries: GADM
 
-Level 1 = county, 2 = sub-county, 3 = ward.
+In real life/world, we would not be creating the points, lines, and polygons ourselves. In most cases we would be using already digitized vector data. In this case, we will have a look at country data from Global Administrations [GADM](https://gadm.org/). There are several levels from 0 to 3.
+
+Level 1 = county, 2 = sub-county, 3 = ward (can be referred to by different names depending on the specific country). Here, we will rely on `geodata` [@geodata] package to get the data. Note that there are plenty of data that you can easily access via the `geodata` package.
 
 ```{r}
 #| label: gadm
-library(geodata)
 library(geodata)
 ken1 <- gadm("KEN", level = 1, path = "data")
 ken3 <- gadm("KEN", level = 3, path = "data")
@@ -246,6 +255,8 @@ plot(farms_v, add = TRUE, pch = 16, cex = 0.6)
 
 ### CRS and reprojection (WGS 84 / UTM 36S)
 
+Sometimes we have data in different coordinate reference systems and we may need to align them or reproject to ensure conformity.
+
 ```{r}
 #| label: crs
 kericho_utm <- project(kericho, "EPSG:32736")
@@ -259,6 +270,8 @@ head(as.data.frame(wards[order(-wards$area_km2), c("NAME_3", "area_km2")]))
 
 ### Centroids and buffers
 
+We may want to have coordinates of the centers of some polygons or the extent of a region around a point. For example, you may be interested in knowing how much forest is found within 2 km of a town.
+
 ```{r}
 #| label: buffers
 ward_cent <- centroids(wards, inside = TRUE)
@@ -271,6 +284,8 @@ plot(ward_cent, add = TRUE, pch = 3)
 ```
 
 ### Spatial query, spatial join, distance
+
+There are a number of spatial queries which we can do. These are queries that rely on spatial organization of study units. For instance, how many households are within a given ward/district. We may also be interested in knowing the distance from several factories to a major town.
 
 ```{r}
 #| label: spatial-ops
@@ -290,6 +305,8 @@ nrow(farms_near)
 ```
 
 ### Aggregate to ward level
+
+We can also perform normal summaries of dataframes with spatial data. For example, mean household income per ward. So, we just run `group_by` and `summarise`. These are same as we would do using `tidyverse` [@tidyverse] package.
 
 ```{r}
 #| label: ward-summary
@@ -317,23 +334,23 @@ writeVector(wards,   "output/kericho_wards.gpkg", overwrite = TRUE)
 
 ## 1.5 Exercise
 
-a) Draw your own "tea estate" with mapedit and compute its area in ha.
-b) How many simulated farms lie within 5 km of it? Mean income of those farms?
-c) Which ward has the highest share of tea farms?
+a)  Draw your own "tea estate" with mapedit and compute its area in ha.
+b)  How many simulated farms lie within 5 km of it? Mean income of those farms?
+c)  Which ward has the highest share of tea farms?
 
 # Day 2 — Raster data (Thu 12.11.2026)
 
-| Time | Block |
-|---|---|
-| 16:15–16:20 | 2.0 Recap + reload |
-| 16:20–16:35 | 2.1 A raster from scratch |
-| 16:35–16:55 | 2.2 Elevation + climate, crop/mask, multi-layer |
-| 16:55–17:05 | Break |
+| Time        | Block                                                 |
+|-------------|-------------------------------------------------------|
+| 16:15–16:20 | 2.0 Recap + reload                                    |
+| 16:20–16:35 | 2.1 A raster from scratch                             |
+| 16:35–16:55 | 2.2 Elevation + climate, crop/mask, multi-layer       |
+| 16:55–17:05 | Break                                                 |
 | 17:05–17:20 | 2.3 Raster algebra, reclassification, tea suitability |
-| 17:20–17:40 | 2.4 Rasters → variables (farms, wards) |
-| 17:40–17:45 | 2.5 Exercise + bridge to GEE |
+| 17:20–17:40 | 2.4 Rasters → variables (farms, wards)                |
+| 17:40–17:45 | 2.5 Exercise + bridge to GEE                          |
 
-::: {.callout-note}
+::: callout-note
 `worldclim_country()` downloads 100+ MB per variable. Run the downloads in 2.2 at home before class.
 :::
 
@@ -354,9 +371,11 @@ plot(kericho); plot(farms, add = TRUE, pch = 16)
 
 ## 2.1 A raster from scratch
 
+As opposed to vector data, raster data store data in regular grids called pixels (picture elements). They partition space in regular grids and contain value for every location. We can create raster layer from scratch for any location globally at our preferred resolution and coordinate reference system.
+
 ```{r}
 #| label: raster-scratch
-r <- rast(nrows = 5, ncols = 5, xmin = 35.0, xmax = 35.5,
+r <- rast(nrows = 6, ncols = 6, xmin = 35.0, xmax = 35.5,
           ymin = -0.6, ymax = -0.1, crs = "EPSG:4326")
 r
 values(r) <- 1:ncell(r)
@@ -380,6 +399,8 @@ plot(aggregate(r, fact = 2, fun = "mean"))
 
 ### Elevation (SRTM-based, 30 arc-sec ≈ 1 km)
 
+In most cases, however, we rely on existing layers of raster data that are either created by satellites or interpolated from ground observation or derived as hybrid data from other sources. For instance, elevation data:
+
 ```{r}
 #| label: dl-elev
 elev <- elevation_30s("KEN", path = "data")
@@ -402,6 +423,8 @@ plot(slope_k, main = "Slope (deg)")
 ```
 
 ### Climate (WorldClim 2.1 monthly normals)
+
+We can also extract global mean monthly rainfall data.
 
 ```{r}
 #| label: dl-climate
@@ -427,6 +450,8 @@ tavg_annual <- resample(tavg_annual, elev_k, method = "bilinear")
 ```
 
 ## 2.3 Raster algebra, reclassification, tea suitability
+
+We can apply several algebraic equations when working with rasters. Just manipulating the pixel values, such as multiplication, reclassification.
 
 ```{r}
 #| label: algebra
@@ -454,6 +479,8 @@ expanse(kericho, unit = "km")
 
 ## 2.4 From rasters to variables
 
+Once we have varibables covering the same extent and sharing same CRS and resolution, we can combine them together into a multilayer object and even clean the names better.
+
 ```{r}
 #| label: covs
 covs <- c(elev_k, slope_k, prec_annual, tavg_annual, tea_suit)
@@ -463,7 +490,13 @@ plot(covs)
 
 ### Farm level: points and buffers
 
+Here, we will extract some pixels values for our points.
+
+::: callout-important
+## Beware of function masking
+
 `tidyverse` masks `terra::extract` with `tidyr::extract`, so always write `terra::extract`.
+:::
 
 ```{r}
 #| label: extract-farms
@@ -481,6 +514,8 @@ ggplot(farms_df, aes(elev_m, income_kes, colour = crop)) +
 ```
 
 ### Ward level: zonal statistics
+
+When working with a lot of extraction across polygons, then it is preferred to use `exactextractr` [@exactextractr] package which is very fast and will often be sufficient, unless additional parallelization is necessary.
 
 ```{r}
 #| label: zonal
@@ -520,11 +555,9 @@ write.csv(ward_df,  "output/wards_with_covariates.csv", row.names = FALSE)
 
 ## 2.5 Exercise and bridge to Google Earth Engine
 
-a) Share of each ward's area that is "suitable for tea" (hint: `exact_extract()` with `"mean"` on `tea_suit`).
-b) Wettest month per ward from `ward_month`.
+a)  Share of each ward's area that is "suitable for tea" (hint: `exact_extract()` with `"mean"` on `tea_suit`).
+b)  Wettest month per ward from `ward_month`.
 
-These were ~1 km static layers that fit on a laptop. Satellite images (10–30 m,
-every few days, years of data) do not, so from next week the same logic (crop,
-mask, algebra, extract, zonal statistics) moves to Google Earth Engine.
-**Homework:** register at <https://code.earthengine.google.com> with a
-noncommercial (education) Cloud project before 19.11.
+These were \~1 km static layers that fit on a laptop. Satellite images (10–30 m, every few days, years of data) do not, so from next week the same logic (crop, mask, algebra, extract, zonal statistics) moves to Google Earth Engine. **Homework:** register at <https://code.earthengine.google.com> with a noncommercial (education) Cloud project before 19.11.
+
+# References
