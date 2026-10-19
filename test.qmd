@@ -225,7 +225,7 @@ expanse(estate, unit = "ha")
 
 ### Real boundaries: GADM
 
-In real life/world, we would not be creating the points, lines, and polygons ourselves. In most cases we would be using already digitized vector data. In this case, we will have a look at country data from Global Administrations [GADM](https://gadm.org/). There are several levels from 0 to 3.
+In real life/world, we would not be creating the `points`, `lines`, and `polygons` ourselves. In most cases we would be using already digitized vector data. In this case, we will have a look at country data from Global Administrations [GADM](https://gadm.org/). There are several levels from 0 to 3.
 
 Level 1 = county, 2 = sub-county, 3 = ward (can be referred to by different names depending on the specific country). Here, we will rely on `geodata` [@geodata] package to get the data. Note that there are plenty of data that you can easily access via the `geodata` package.
 
